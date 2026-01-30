@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { HashRouter, Routes, Route, Navigate } from "react-router-dom";
 import { DocsLayout } from "./components/docs/DocsLayout";
 import Introduction from "@/pages/docs/Introduction";
 import DevelopmentLifecycle from "@/pages/docs/DevelopmentLifecycle";
@@ -19,11 +19,11 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
+      <HashRouter>
         <Routes>
-          <Route path="/" element={<Navigate to="/docs/getting-started" replace />} />
+          <Route path="/" element={<Navigate to="/docs/introduction" replace />} />
           <Route path="/docs" element={<DocsLayout />}>
-            <Route index element={<Navigate to="/docs/getting-started" replace />} />
+            <Route index element={<Navigate to="/docs/introduction" replace />} />
             <Route path="introduction" element={<Introduction />} />
             <Route path="development-lifecycle" element={<DevelopmentLifecycle />} />
             <Route path="data-sources" element={<DataSources />} />
@@ -34,7 +34,7 @@ const App = () => (
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </TooltipProvider>
   </QueryClientProvider>
 );

@@ -5,13 +5,9 @@ export function Introduction() {
         Introduction
       </h1>
 
-      <p className="text-docs-text text-lg leading-relaxed mb-8">
-        <strong>FFONTO</strong> stands for the <strong>Forest Fire Detection & Observation Ontology</strong>.
-      </p>
-
       <section id="what-is-ffonto" className="mb-12">
         <h2 className="text-2xl font-semibold text-docs-heading mb-4">
-          What is FFONTO?
+          FFOnto
         </h2>
 
         <p className="text-docs-text leading-relaxed mb-4">
@@ -21,14 +17,14 @@ export function Introduction() {
         </p>
 
         <p className="text-docs-text leading-relaxed mb-4">
-          FFONTO is a domain-specific ontology designed to model forest fire detection,
+          <strong>FFOnto</strong> stands for the <strong>Forest Fire Ontology</strong>. FFOnto is a domain-specific ontology designed to model forest fire detection,
           monitoring, and observation data. It supports the semantic integration of
           heterogeneous data sources such as visual sensors, audio sensors,
           meteorological measurements, and environmental observations.
         </p>
 
         <p className="text-docs-text leading-relaxed">
-          FFONTO adopts and extends existing semantic standards—particularly from
+          FFOnto adopts and extends existing semantic standards—particularly from
           the Internet of Things (IoT) and sensor observation domains—to ensure
           interoperability, extensibility, and reuse.
         </p>
@@ -36,7 +32,7 @@ export function Introduction() {
 
       <section id="ffonto-resources" className="mb-12">
         <h2 className="text-2xl font-semibold text-docs-heading mb-4">
-          FFONTO Resources
+          FFOnto Resources
         </h2>
 
         <ul className="list-disc list-inside text-docs-text space-y-2 ml-4">
@@ -75,7 +71,7 @@ export function Introduction() {
 
       <section id="ffonto-at-a-glance" className="mb-12">
         <h2 className="text-2xl font-semibold text-docs-heading mb-4">
-          FFONTO at a Glance
+          FFOnto at a Glance
         </h2>
 
         <ul className="list-disc list-inside text-docs-text space-y-2 ml-4">
@@ -89,7 +85,7 @@ export function Introduction() {
 
       <section id="ffonto-lifecycle" className="mb-12">
         <h2 className="text-2xl font-semibold text-docs-heading mb-4">
-          FFONTO Lifecycle
+          FFOnto Lifecycle
         </h2>
 
         <ol className="list-decimal list-inside text-docs-text space-y-2 ml-4">
