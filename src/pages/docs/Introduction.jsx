@@ -17,16 +17,15 @@ export function Introduction() {
         </p>
 
         <p className="text-docs-text leading-relaxed mb-4">
-          <strong>FFOnto</strong> stands for the <strong>Forest Fire Ontology</strong>. FFOnto is a domain-specific ontology designed to model forest fire detection,
+          <strong>FFOnto</strong> stands for the <strong>Forest Fire Ontology</strong>. 
+          FFOnto is a domain-specific ontology designed to model forest fire detection,
           monitoring, and observation data. It supports the semantic integration of
-          heterogeneous data sources such as visual sensors, audio sensors,
+          heterogeneous data sources such as visual , audio ,
           meteorological measurements, and environmental observations.
         </p>
 
         <p className="text-docs-text leading-relaxed">
-          FFOnto adopts and extends existing semantic standards—particularly from
-          the Internet of Things (IoT) and sensor observation domains—to ensure
-          interoperability, extensibility, and reuse.
+         
         </p>
       </section>
 
@@ -57,7 +56,7 @@ export function Introduction() {
             </a>
           </li>
           <li>
-            <strong>Knowledge Graph / Dataset:</strong>{" "}
+            <strong>Knowledge Graph / Dataset (Sample):</strong>{" "}
             <a
               href="https://w3id.org/def/ffontoDS"
               className="text-docs-link underline"
