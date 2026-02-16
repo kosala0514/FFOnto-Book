@@ -74,3 +74,7 @@ export function DocsTableOfContents() {
     </aside>
   );
 }
+
+
+/// https://kosala0514.github.io/FFOnto-Book/#development
+/// https://kosala0514.github.io/FFOnto-Book/#/docs/development-lifecycle#development

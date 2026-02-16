@@ -38,31 +38,31 @@ export function Introduction() {
           <li>
             <strong>Ontology (Turtle):</strong>{" "}
             <a
-              href="https://w3id.org/def/ffonto"
+              href="https://github.com/kosala0514/FFOnto/blob/main/ffonto.ttl"
               className="text-docs-link underline"
               target="_blank"
             >
-              https://w3id.org/def/ffonto
+              https://github.com/kosala0514/FFOnto/blob/main/ffonto.ttl
             </a>
           </li>
           <li>
             <strong>Documentation:</strong>{" "}
             <a
-              href="https://w3id.org/def/ffontoDocs"
+              href="https://github.com/kosala0514/FFonto-Document"
               className="text-docs-link underline"
               target="_blank"
             >
-              https://w3id.org/def/ffontoDocs
+              https://github.com/kosala0514/FFonto-Document
             </a>
           </li>
           <li>
             <strong>Knowledge Graph / Dataset (Sample):</strong>{" "}
             <a
-              href="https://w3id.org/def/ffontoDS"
+              href="https://github.com/kosala0514/FFOnto-DS"
               className="text-docs-link underline"
               target="_blank"
             >
-              https://w3id.org/def/ffontoDS
+              https://github.com/kosala0514/FFOnto-DS
             </a>
           </li>
         </ul>
@@ -88,11 +88,11 @@ export function Introduction() {
         </h2>
 
         <ol className="list-decimal list-inside text-docs-text space-y-2 ml-4">
-          <li><strong>Development</strong> – Domain scope and core concepts</li>
-          <li><strong>Requirements</strong> – Competency questions</li>
-          <li><strong>Implementation</strong> – OWL/RDF formalisation</li>
-          <li><strong>Evaluation</strong> – Quality tools and SPARQL testing</li>
-          <li><strong>Publication</strong> – Persistent URIs and versioning</li>
+          <li><strong>Development</strong></li>
+          <li><strong>Requirements</strong></li>
+          <li><strong>Implementation</strong></li>
+          <li><strong>Evaluation</strong></li>
+          <li><strong>Publication</strong></li>
         </ol>
       </section>
     </div>

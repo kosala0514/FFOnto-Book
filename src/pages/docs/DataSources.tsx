@@ -7,7 +7,7 @@ export function DataSources() {
 
       <p className="text-docs-text text-lg leading-relaxed mb-8">
         This page describes the primary data sources modeled and supported by the
-        Forest Fire Detection & Observation Ontology (FFONTO).
+        Forest Fire Ontology (FFONTO).
       </p>
 
       <p className="text-docs-text leading-relaxed mb-12">
@@ -48,13 +48,13 @@ export function DataSources() {
         </p>
 
         <p className="text-docs-text leading-relaxed">
-          Weather data may originate from:
+          Weather data originate from public sources such as:
         </p>
 
         <ul className="list-disc list-inside text-docs-text space-y-2 ml-4 mt-2">
-          <li>Automated weather stations</li>
-          <li>Remote sensing platforms</li>
-          <li>Environmental monitoring networks</li>
+          <li><a href="https://archive.ics.uci.edu/dataset/547/algerian+forest+fires+dataset">Algerian Forest Fire</a></li>
+          <li><a href="https://archive.ics.uci.edu/dataset/162/forest+fires">Forest Fire Dataset</a></li>
+          {/* <li>Environmental monitoring networks</li> */}
         </ul>
       </section>
 
@@ -78,17 +78,17 @@ export function DataSources() {
           <li>Images showing visible flames</li>
           <li>Smoke plume detection imagery</li>
           <li>Vegetation and landscape context</li>
-          <li>Time-stamped and geo-referenced image data</li>
+          {/* <li>Time-stamped and geo-referenced image data</li> */}
         </ul>
 
         <p className="text-docs-text leading-relaxed mb-4">
-          Image data may be produced by:
+          Image data produced by public datasets such as:
         </p>
 
         <ul className="list-disc list-inside text-docs-text space-y-2 ml-4">
-          <li>Fixed surveillance cameras</li>
-          <li>Unmanned aerial vehicles (UAVs)</li>
-          <li>Satellite-based imaging systems</li>
+          <li><a href="https://github.com/aiformankind/wildfire-dataset/tree/master">Wildfire Dataset</a></li>
+          <li><a href="https://etsin.fairdata.fi/dataset/1dce1023-493a-4d63-a906-f2a44f831898/data">Boreal Forest Fire Dataset</a></li>
+          <li><a href="https://bitbucket.org/gbdi/bowfire-dataset/downloads/">BoW Fire Dataset</a></li>
         </ul>
 
         <p className="text-docs-text leading-relaxed mt-4">
@@ -120,12 +120,12 @@ export function DataSources() {
         </ul>
 
         <p className="text-docs-text leading-relaxed mb-4">
-          Audio data is typically collected using:
+          Audio data is collected from public dataset sources such as:
         </p>
 
         <ul className="list-disc list-inside text-docs-text space-y-2 ml-4">
-          <li>Microphone-based acoustic sensors</li>
-          <li>Distributed audio monitoring systems</li>
+          <li><a href="https://www.kaggle.com/datasets/irmiot22/fsc22-dataset">FSC22 Dataset</a></li>
+          <li><a href="https://www.kaggle.com/datasets/forestprotection/forest-wild-fire-sound-dataset">Forest Wild Fire Sound Dataset</a></li>
         </ul>
 
         <p className="text-docs-text leading-relaxed mt-4">
