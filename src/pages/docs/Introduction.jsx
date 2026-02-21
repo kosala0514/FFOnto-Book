@@ -34,7 +34,7 @@ export function Introduction() {
       <div className="my-10 overflow-hidden">
         <img 
           src={lifecycleDiagram} 
-          alt="FFONTO Development Lifecycle Diagram" 
+          alt="FFOnto Development Lifecycle Diagram" 
           className="w-full h-auto object-cover"
         />
         <p className="text-sm text-center text-gray-500 py-3 ">

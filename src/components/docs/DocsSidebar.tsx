@@ -14,7 +14,7 @@ const navSections: NavSection[] = [
   title: "Introduction",
   href: "/docs/introduction",
   items: [
-    { label: "What is FFONTO?", href: "/docs/introduction#what-is-ffonto" },
+    { label: "What is FFOnto?", href: "/docs/introduction#what-is-ffonto" },
     { label: "Resources", href: "/docs/introduction#ffonto-resources" },
     { label: "At a Glance", href: "/docs/introduction#ffonto-at-a-glance" },
     { label: "Lifecycle", href: "/docs/introduction#ffonto-lifecycle" },
@@ -41,7 +41,7 @@ const navSections: NavSection[] = [
   ],
 },
 {
-  title: "FFONTO-Bot",
+  title: "FFOnto-Bot",
   href: "/docs/ffonto-bot",
   items: [
     { label: "GitHub", href: "/docs/ffonto-bot#github" },
@@ -51,10 +51,10 @@ const navSections: NavSection[] = [
   ],
 },
 {
-  title: "Using FFONTO",
+  title: "Using FFOnto",
   href: "/docs/using-ffonto",
   items: [
-    { label: "How to Query FFONTO", href: "/docs/using-ffonto#how-to-query" },
+    { label: "How to Query FFOnto", href: "/docs/using-ffonto#how-to-query" },
     { label: "SPARQL Examples", href: "/docs/using-ffonto#sparql-examples" },
   ],
 },
@@ -65,7 +65,7 @@ const navSections: NavSection[] = [
     { label: "Applications & Use Cases", href: "/docs/additional-information#applications" },
     { label: "Limitations & Future Work", href: "/docs/additional-information#limitations" },
     { label: "Acknowledgements", href: "/docs/additional-information#acknowledgements" },
-    { label: "Cite FFONTO", href: "/docs/additional-information#citation" },
+    { label: "Cite FFOnto", href: "/docs/additional-information#citation" },
   ],
 }
 ];

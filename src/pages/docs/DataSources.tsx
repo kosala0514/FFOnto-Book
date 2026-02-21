@@ -7,11 +7,11 @@ export function DataSources() {
 
       <p className="text-docs-text text-lg leading-relaxed mb-8">
         This page describes the primary data sources modeled and supported by the
-        Forest Fire Ontology (FFONTO).
+        Forest Fire Ontology (FFOnto).
       </p>
 
       <p className="text-docs-text leading-relaxed mb-12">
-        FFONTO is designed to integrate heterogeneous, multi-modal data sources
+        FFOnto is designed to integrate heterogeneous, multi-modal data sources
         commonly used in forest fire monitoring and early detection systems.
       </p>
 
@@ -23,12 +23,12 @@ export function DataSources() {
 
         <p className="text-docs-text leading-relaxed mb-4">
           Weather data plays a critical role in forest fire detection, behavior
-          analysis, and risk assessment. FFONTO models meteorological observations
+          analysis, and risk assessment. FFOnto models meteorological observations
           that influence fire ignition, spread, and intensity.
         </p>
 
         <p className="text-docs-text leading-relaxed mb-4">
-          Typical weather-related data represented in FFONTO include:
+          Typical weather-related data represented in FFOnto include:
         </p>
 
         <ul className="list-disc list-inside text-docs-text space-y-2 ml-4 mb-4">
@@ -66,7 +66,7 @@ export function DataSources() {
 
         <p className="text-docs-text leading-relaxed mb-4">
           Forest fire image data is a key source for visual fire and smoke detection.
-          FFONTO supports the semantic representation of image-based observations
+          FFOnto supports the semantic representation of image-based observations
           captured by visual sensors.
         </p>
 
@@ -93,7 +93,7 @@ export function DataSources() {
 
         <p className="text-docs-text leading-relaxed mt-4">
           By linking image observations to fire events, sensor metadata, and
-          environmental context, FFONTO enables advanced image analysis,
+          environmental context, FFOnto enables advanced image analysis,
           computer vision, and AI-based fire detection workflows.
         </p>
       </section>
@@ -110,7 +110,7 @@ export function DataSources() {
         </p>
 
         <p className="text-docs-text leading-relaxed mb-4">
-          FFONTO models audio observations such as:
+          FFOnto models audio observations such as:
         </p>
 
         <ul className="list-disc list-inside text-docs-text space-y-2 ml-4 mb-4">
@@ -129,7 +129,7 @@ export function DataSources() {
         </ul>
 
         <p className="text-docs-text leading-relaxed mt-4">
-          By integrating audio observations with weather and image data, FFONTO
+          By integrating audio observations with weather and image data, FFOnto
           supports multi-modal fire detection approaches, improving robustness
           and detection accuracy.
         </p>

@@ -4,24 +4,24 @@ export function DevelopmentLifecycle() {
   return (
     <div className="max-w-3xl mx-auto px-8 py-12">
       <h1 className="text-4xl font-bold text-docs-heading mb-6">
-        FFONTO Development Lifecycle
+        FFOnto Development Lifecycle
       </h1>
 
       <p className="text-docs-text text-lg leading-relaxed mb-8">
         This page describes the structured methodology followed for the design,
         formalisation, implementation, evaluation, and knowledge graph construction
-        of the Forest Fire Ontology (FFONTO).
+        of the Forest Fire Ontology (FFOnto).
       </p>
 
       {/* Image Container */}
       <div className="my-10 overflow-hidden">
         <img 
           src={lifecycleDiagram} 
-          alt="FFONTO Development Lifecycle Diagram" 
+          alt="FFOnto Development Lifecycle Diagram" 
           className="w-full h-auto object-cover"
         />
         <p className="text-sm text-center text-gray-500 py-3 ">
-          Figure 2: The phases of the FFONTO methodology.
+          Figure 2: The phases of the FFOnto methodology.
         </p>
       </div>
 
@@ -33,7 +33,7 @@ export function DevelopmentLifecycle() {
         </h2>
 
         <p className="text-docs-text leading-relaxed mb-4">
-          The development of FFONTO followed the NeOn Methodology (Scenario 1),
+          The development of FFOnto followed the NeOn Methodology (Scenario 1),
           which supports building ontologies from the ground up. The process began
           with comprehensive knowledge acquisition to achieve a detailed
           understanding of the forest fire domain.
@@ -70,7 +70,7 @@ export function DevelopmentLifecycle() {
         </p>
 
         <p className="text-docs-text leading-relaxed mb-4">
-          The defined scope of FFONTO includes:
+          The defined scope of FFOnto includes:
         </p>
 
         <ul className="list-disc list-inside text-docs-text space-y-2 ml-4 mb-4">
@@ -113,7 +113,7 @@ export function DevelopmentLifecycle() {
         </p>
 
         <p className="text-docs-text leading-relaxed">
-          FFONTO follows Semantic Web best practices, including persistent URIs,
+          FFOnto follows Semantic Web best practices, including persistent URIs,
           clear annotation properties, alignment with external vocabularies,
           and consistent naming conventions.
         </p>
@@ -126,7 +126,7 @@ export function DevelopmentLifecycle() {
         </h2>
 
         <p className="text-docs-text leading-relaxed mb-4">
-          FFONTO was evaluated using complementary validation strategies:
+          FFOnto was evaluated using complementary validation strategies:
         </p>
 
         <ul className="list-disc list-inside text-docs-text space-y-2 ml-4 mb-4">
@@ -150,7 +150,7 @@ export function DevelopmentLifecycle() {
         </h2>
 
         <p className="text-docs-text leading-relaxed mb-4">
-          Following validation, FFONTO was used to construct a Knowledge Graph (KG)
+          Following validation, FFOnto was used to construct a Knowledge Graph (KG)
           to enable structured reasoning and efficient querying across integrated
           forest fire data sources.
         </p>
@@ -163,7 +163,7 @@ export function DevelopmentLifecycle() {
         </ul>
 
         <p className="text-docs-text leading-relaxed">
-          Final evaluation confirmed that FFONTO satisfies its defined
+          Final evaluation confirmed that FFOnto satisfies its defined
           requirements and effectively supports knowledge-driven forest
           fire monitoring and management applications.
         </p>

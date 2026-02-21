@@ -12,7 +12,7 @@ export function AdditionalInformation() {
         </h2>
 
         <p className="text-docs-text leading-relaxed mb-4">
-          FFONTO is designed to support a wide range of applications related to
+          FFOnto is designed to support a wide range of applications related to
           forest fire detection, monitoring, and analysis.
         </p>
 
@@ -29,7 +29,7 @@ export function AdditionalInformation() {
         </ul>
 
         <p className="text-docs-text leading-relaxed">
-          By providing a standardized semantic framework, FFONTO enables
+          By providing a standardized semantic framework, FFOnto enables
           interoperability between diverse systems and data sources.
         </p>
       </section>
@@ -41,7 +41,7 @@ export function AdditionalInformation() {
         </h2>
 
         <p className="text-docs-text leading-relaxed mb-4">
-          While FFONTO provides a comprehensive semantic model for forest fire
+          While FFOnto provides a comprehensive semantic model for forest fire
           detection and observation, certain limitations remain.
         </p>
 
@@ -60,7 +60,7 @@ export function AdditionalInformation() {
         </p>
 
         <ul className="list-disc list-inside text-docs-text space-y-2 ml-4">
-          <li>Extending FFONTO to include fire risk assessment, resilience, and impact analysis</li>
+          <li>Extending FFOnto to include fire risk assessment, resilience, and impact analysis</li>
           <li>Integration with additional domain ontologies (e.g., disaster management, climate change)</li>
           <li>Enhanced support for real-time data streams and reasoning</li>
           <li>Continuous refinement based on community feedback and real-world deployments</li>
@@ -74,7 +74,7 @@ export function AdditionalInformation() {
         </h2>
 
         <p className="text-docs-text leading-relaxed mb-4">
-          The development of FFONTO was supported by academic supervision,
+          The development of FFOnto was supported by academic supervision,
           domain expertise, and open-source semantic technologies.
         </p>
 
@@ -92,17 +92,17 @@ export function AdditionalInformation() {
       {/* Citation */}
       <section id="citation" className="mb-12">
         <h2 className="text-2xl font-semibold text-docs-heading mb-4">
-          4. Cite FFONTO
+          4. Cite FFOnto
         </h2>
 
         <p className="text-docs-text leading-relaxed mb-4">
-          If you use FFONTO in academic or technical work, please cite it as follows:
+          If you use FFOnto in academic or technical work, please cite it as follows:
         </p>
 
         <pre className="bg-secondary rounded-lg p-4 overflow-x-auto">
           <code className="text-sm text-docs-heading">
 {`Jayaweera, C. K., & Meedeniya, D.
-FFONTO: Forest Fire Detection & Observation Ontology.
+FFOnto: Forest Fire Detection & Observation Ontology.
 Version 1.0, 2026.
 https://w3id.org/def/ffonto`}
           </code>

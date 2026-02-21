@@ -7,10 +7,10 @@ interface TocItem {
 
 const tocByPage: Record<string, TocItem[]> = {
    "/docs/introduction": [
-    { id: "what-is-ffonto", label: "What is FFONTO?" },
-    { id: "ffonto-resources", label: "FFONTO Resources" },
-    { id: "ffonto-at-a-glance", label: "FFONTO At a Glance" },
-    { id: "ffonto-lifecycle", label: "FFONTO Lifecycle" },
+    { id: "what-is-ffonto", label: "What is FFOnto?" },
+    { id: "ffonto-resources", label: "FFOnto Resources" },
+    { id: "ffonto-at-a-glance", label: "FFOnto At a Glance" },
+    { id: "ffonto-lifecycle", label: "FFOnto Lifecycle" },
   ],
   "/docs/development-lifecycle": [
   { id: "development", label: "Knowledge Acquisition & Conceptualisation" },
@@ -26,19 +26,19 @@ const tocByPage: Record<string, TocItem[]> = {
 ],
 "/docs/ffonto-bot": [
   { id: "github", label: "GitHub" },
-  { id: "how-to-use", label: "How to Use FFONTO-Bot" },
+  { id: "how-to-use", label: "How to Use FFOnto-Bot" },
   { id: "capabilities", label: "Key Capabilities" },
   { id: "intended-users", label: "Intended Users" },
 ],
 "/docs/using-ffonto": [
-  { id: "how-to-query", label: "How to Query FFONTO" },
+  { id: "how-to-query", label: "How to Query FFOnto" },
   { id: "sparql-examples", label: "SPARQL Examples" },
 ],
 "/docs/additional-information": [
   { id: "applications", label: "Applications & Use Cases" },
   { id: "limitations", label: "Limitations & Future Work" },
   { id: "acknowledgements", label: "Acknowledgements" },
-  { id: "citation", label: "Cite FFONTO" },
+  { id: "citation", label: "Cite FFOnto" },
 ],
 };
 

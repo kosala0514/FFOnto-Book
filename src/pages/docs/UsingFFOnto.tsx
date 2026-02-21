@@ -2,25 +2,25 @@ export function UsingFFOnto() {
   return (
     <div className="max-w-3xl mx-auto px-8 py-12">
       <h1 className="text-4xl font-bold text-docs-heading mb-6">
-        Using FFONTO
+        Using FFOnto
       </h1>
 
       <p className="text-docs-text text-lg leading-relaxed mb-8">
-        This page demonstrates how to query FOO (the FFONTO knowledge graph)
+        This page demonstrates how to query FOO (the FFOnto knowledge graph)
         using SPARQL to answer natural language questions related to forest fire
         detection and observation.
       </p>
 
       <section id="how-to-query" className="mb-12">
         <h2 className="text-2xl font-semibold text-docs-heading mb-4">
-          1. How to Query FFONTO
+          1. How to Query FFOnto
         </h2>
 
         <p className="text-docs-text leading-relaxed mb-4">
-          FFONTO can be queried using SPARQL, the standard query language for RDF
+          FFOnto can be queried using SPARQL, the standard query language for RDF
           and knowledge graphs. SPARQL enables users to retrieve, filter, and
           reason over fire-related events, sensor observations, and environmental
-          conditions modeled in FFONTO.
+          conditions modeled in FFOnto.
         </p>
 
         <p className="text-docs-text leading-relaxed">
