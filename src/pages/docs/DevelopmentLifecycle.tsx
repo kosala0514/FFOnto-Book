@@ -1,3 +1,5 @@
+import lifecycleDiagram from '../../../src/assets/methodology.png'; // Adjust path as needed
+
 export function DevelopmentLifecycle() {
   return (
     <div className="max-w-3xl mx-auto px-8 py-12">
@@ -11,10 +13,22 @@ export function DevelopmentLifecycle() {
         of the Forest Fire Ontology (FFONTO).
       </p>
 
+      {/* Image Container */}
+      <div className="my-10 overflow-hidden">
+        <img 
+          src={lifecycleDiagram} 
+          alt="FFONTO Development Lifecycle Diagram" 
+          className="w-full h-auto object-cover"
+        />
+        <p className="text-sm text-center text-gray-500 py-3 ">
+          Figure 1: The phases of the FFONTO methodology.
+        </p>
+      </div>
       {/* Development */}
+
       <section id="development" className="mb-12">
         <h2 className="text-2xl font-semibold text-docs-heading mb-4">
-          1. Development
+          1. Knowledge Acquisition & Conceptualisation
         </h2>
 
         <p className="text-docs-text leading-relaxed mb-4">
@@ -45,7 +59,7 @@ export function DevelopmentLifecycle() {
       {/* Requirements */}
       <section id="requirements" className="mb-12">
         <h2 className="text-2xl font-semibold text-docs-heading mb-4">
-          2. Requirements
+          2. Requirements Definition
         </h2>
 
         <p className="text-docs-text leading-relaxed mb-4">
@@ -131,7 +145,7 @@ export function DevelopmentLifecycle() {
       {/* Publication */}
       <section id="publication" className="mb-12">
         <h2 className="text-2xl font-semibold text-docs-heading mb-4">
-          5. Knowledge Graph & Publication
+          5. Knowledge Graph Construction
         </h2>
 
         <p className="text-docs-text leading-relaxed mb-4">

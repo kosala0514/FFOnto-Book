@@ -13,11 +13,11 @@ const tocByPage: Record<string, TocItem[]> = {
     { id: "ffonto-lifecycle", label: "FFONTO Lifecycle" },
   ],
   "/docs/development-lifecycle": [
-  { id: "development", label: "Development" },
-  { id: "requirements", label: "Requirements" },
+  { id: "development", label: "Knowledge Acquisition & Conceptualisation" },
+  { id: "requirements", label: "Requirements Definition" },
   { id: "implementation", label: "Implementation" },
   { id: "evaluation", label: "Evaluation" },
-  { id: "publication", label: "Publication" },
+  { id: "publication", label: "Knowledge Graph Construction" },
 ],
 "/docs/data-sources": [
   { id: "weather-data", label: "Weather Data" },

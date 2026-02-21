@@ -24,11 +24,11 @@ const navSections: NavSection[] = [
   title: "Development Lifecycle",
   href: "/docs/development-lifecycle",
   items: [
-    { label: "Development", href: "/docs/development-lifecycle#development" },
-    { label: "Requirements", href: "/docs/development-lifecycle#requirements" },
+    { label: "Knowledge Acquisition & Conceptualisation", href: "/docs/development-lifecycle#development" },
+    { label: "Requirements Definition", href: "/docs/development-lifecycle#requirements" },
     { label: "Implementation", href: "/docs/development-lifecycle#implementation" },
     { label: "Evaluation", href: "/docs/development-lifecycle#evaluation" },
-    { label: "Publication", href: "/docs/development-lifecycle#publication" },
+    { label: "Knowledge Graph Construction", href: "/docs/development-lifecycle#publication" },
   ],
 },
 {
