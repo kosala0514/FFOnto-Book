@@ -21,9 +21,10 @@ export function DevelopmentLifecycle() {
           className="w-full h-auto object-cover"
         />
         <p className="text-sm text-center text-gray-500 py-3 ">
-          Figure 1: The phases of the FFONTO methodology.
+          Figure 2: The phases of the FFONTO methodology.
         </p>
       </div>
+
       {/* Development */}
 
       <section id="development" className="mb-12">
