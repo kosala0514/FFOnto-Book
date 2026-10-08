@@ -1,0 +1,127 @@
+<p class="lede">FFOnto integrates three modalities. This chapter describes where each comes from, what a raw record
+looks like, and how its fields become ontology terms.</p>
+<p>All three are lifted the same way. A normaliser cleans the raw record, the
+<a href="{{ontology_docs_url}}resources/ffonto.context.jsonld">JSON-LD context</a> maps each field to an ontology
+term, and records that share an <code>event_id</code> are linked to the same <code>ffo:FireEvent</code>. That shared
+event is what makes cross-modal questions possible, such as whether the audio and the image of one incident agree.</p>
+
+<h2 id="weather-data">Weather Data</h2>
+<p>Weather records are rows of a table that combines daily weather observations with the components of the Canadian
+Fire Weather Index (FWI) system. Two public datasets provide the rows:</p>
+<ul>
+  <li><b>Forest Fires (Montesinho natural park, Portugal).</b> 517 records with a 9 × 9 spatial grid position,
+  month and weekday, weather values, FWI components and the burned area (Cortez and Morais, 2007). The records
+  carry no year or day of month, so they enter the graph without an observation date.</li>
+  <li><b>Algerian Forest Fires (Bejaia and Sidi Bel-Abbès regions).</b> Daily records from June to September 2012
+  with full dates, weather values, all six FWI components and a fire / no-fire class.</li>
+</ul>
+<p>Both are harmonised into one schema:</p>
+<pre><code class="language-text">modality,site,grid_x,grid_y,country,day_name,day_of_month,month_num,year,temp_c,rh_pct,wind_kmh,rain_mm,FFMC,DMC,DC,ISI,BUI,FWI,fire_occured,area_ha,event_id
+Tabular,demo_site_A,2,2,,tue,28,8,2012,17.4,43,6.7,0,94.8,108.3,647.1,17.0,150.4,33.1,1,1.07,ev_demo_081</code></pre>
+<table>
+  <thead><tr><th>Column</th><th>Ontology term</th><th>Meaning</th></tr></thead>
+  <tbody>
+    <tr><td><code>site</code>, <code>grid_x</code>, <code>grid_y</code></td><td><code>ffo:atSite</code> → <code>ffo:Site</code></td><td>One site per grid cell</td></tr>
+    <tr><td><code>year</code>, <code>month_num</code>, <code>day_of_month</code></td><td><code>ffo:observationDate</code></td><td>Only built when all three are present</td></tr>
+    <tr><td><code>temp_c</code>, <code>rh_pct</code>, <code>wind_kmh</code>, <code>rain_mm</code></td><td><code>ffo:airTemperatureC</code>, <code>ffo:relativeHumidityPct</code>, <code>ffo:windSpeedKmh</code>, <code>ffo:rainMm</code></td><td>Daily weather</td></tr>
+    <tr><td><code>FFMC</code>, <code>DMC</code>, <code>DC</code>, <code>ISI</code>, <code>BUI</code>, <code>FWI</code></td><td><code>ffo:ffmc</code> … <code>ffo:fwi</code></td><td>FWI system components</td></tr>
+    <tr><td><code>fire_occured</code>, <code>area_ha</code></td><td><code>ffo:fireOccurred</code>, <code>ffo:burnedAreaHa</code></td><td>Outcome</td></tr>
+    <tr><td><code>event_id</code></td><td><code>ffo:aboutEvent</code></td><td>Links the row to a fire event</td></tr>
+  </tbody>
+</table>
+<p>Two rules work on weather records. R04 compares each value with the <a href="{{ontology_docs_url}}rules/">danger
+rules</a> and derives conditions such as <i>rapid fine-fuel spread</i>. R08 links each record to the previous record
+at the same site, so the FWI trend can be queried.</p>
+
+<h2 id="image-data">Image Data</h2>
+<p>Images are drone and camera frames from the ForestFire-VQA dataset. Each image has a JSON record produced by the
+image pipeline:</p>
+<ul>
+  <li>a caption from an image-captioning model (BLIP, large);</li>
+  <li>zero-shot scores for <i>smoke</i>, <i>fire</i> and <i>no fire</i> from CLIP ViT-L/14;</li>
+  <li>the decision thresholds in use;</li>
+  <li>file provenance and a SHA-256 checksum.</li>
+</ul>
+<pre><code class="language-json">{
+  "record_uuid": "3f6d562f-33d3-49ee-a40b-3a8b6cf07823",
+  "modality": "Image",
+  "image_id": "evoDJI_0001_frame12_100788",
+  "event_id": "ev_bf59c56acb36",
+  "capture_time_utc": null,
+  "labels": [
+    {"type": "fire",  "confidence": 0.1585, "label_source": "caption",
+     "model_name": "openai/clip-vit-large-patch14",
+     "thresholds": {"fire_threshold": 0.55, "smoke_threshold": 0.6}},
+    {"type": "smoke", "confidence": 0.7291, "label_source": "zshot",
+     "model_name": "openai/clip-vit-large-patch14"}
+  ],
+  "provenance": {
+    "uri": "evoDJI_0001_frame12.jpg",
+    "checksum_sha256": "df5124eb…",
+    "caption_model": "Salesforce/blip-image-captioning-large",
+    "caption_text": "arafed forest fire in the middle of a forest with a lake"
+  },
+  "license": "CC-BY-4.0",
+  "image_size_px": {"width": 2048, "height": 1080}
+}</code></pre>
+<table>
+  <thead><tr><th>Field</th><th>Becomes</th></tr></thead>
+  <tbody>
+    <tr><td>the record itself</td><td><code>ffo:ImageRecord</code></td></tr>
+    <tr><td>each entry of <code>labels</code></td><td>an <code>ffo:ModelObservation</code> with <code>ffo:predictedClass</code>, <code>ffo:confidence</code> and <code>prov:wasAttributedTo</code> the model</td></tr>
+    <tr><td><code>thresholds</code></td><td><code>ffo:Threshold</code> individuals, linked with <code>ffo:usedThreshold</code></td></tr>
+    <tr><td><code>caption_text</code></td><td>an <code>ffo:Caption</code>; rule R03 tags the concepts it mentions</td></tr>
+    <tr><td><code>checksum_sha256</code>, <code>uri</code>, <code>license</code>, size</td><td>record metadata (<code>ffo:checksumSHA256</code>, <code>ffo:fileURI</code>, <code>dcterms:license</code>, <code>ffo:widthPx</code>)</td></tr>
+  </tbody>
+</table>
+<p>In this example, the smoke score (0.73) is above its threshold (0.60) and the fire score (0.16) is below its
+threshold (0.55), so rule R02 derives <i>smoke</i> as the detected class. The caption still says "forest fire", and
+rule R05 records that disagreement as an <code>ffo:ModalityConflict</code>.</p>
+<p>Questions about what is <i>in</i> a picture (people, PPE, vehicles, vegetation, damage) need more than scores.
+A vision-language model reads each image and writes a <b>scene description</b>: a list of entities with their kind,
+state, activity, worn equipment and spatial relations, restricted to concepts from the vocabulary. The lifter turns it
+into an <code>ffo:SceneDescription</code> that <code>ffo:depicts</code> a set of <code>ffo:SceneEntity</code> nodes.</p>
+
+<h2 id="audio-data">Audio Data</h2>
+<p>Audio clips are recorded at or near the fire. Each clip is classified with YAMNet, a sound-event model with 521
+classes. YAMNet scores the clip in frames of 0.48 seconds, and the pipeline keeps the labels that reach a frame
+threshold of 0.2 and maps them to fire-relevant sound events:</p>
+<pre><code class="language-json">{
+  "record_uuid": "7cd6773c-c37e-4acc-a594-20a8d0a5c74a",
+  "modality": "Audio",
+  "audio_file": "videoplayback_14.wav",
+  "event_id": "ev_22e029d3b190",
+  "duration_ms": 480.0,
+  "labels": [
+    {"type": "fire_audio", "raw_label": "explosion",
+     "mean_confidence": 0.7337, "max_confidence": 0.7337,
+     "topk_frame_labels": ["explosion"], "thresholds": {"frame_thresh": 0.2}}
+  ],
+  "provenance": {"model": "https://tfhub.dev/google/yamnet/1",
+                 "frame_stride_s": 0.48, "thresh": 0.2, "topk": 8}
+}</code></pre>
+<table>
+  <thead><tr><th>Field</th><th>Becomes</th></tr></thead>
+  <tbody>
+    <tr><td>the record itself</td><td><code>ffo:AudioRecord</code> with <code>ffo:durationMs</code></td></tr>
+    <tr><td><code>raw_label</code></td><td><code>ffo:predictedClass</code> pointing to a sound-event concept, for example <code>ffv:Explosion</code></td></tr>
+    <tr><td><code>mean_confidence</code>, <code>max_confidence</code></td><td><code>ffo:meanConfidence</code>, <code>ffo:maxConfidence</code></td></tr>
+    <tr><td><code>model</code>, <code>frame_stride_s</code>, <code>topk</code></td><td>model provenance (<code>ffo:modelURL</code>, <code>ffo:frameStrideS</code>, <code>ffo:topK</code>)</td></tr>
+  </tbody>
+</table>
+<p>Audio matters most in combination. When an explosion is detected above its threshold, rule R07 derives an
+explosion hazard for the event. Independently, rule R06 derives the same hazard type when a propane tank is seen near
+the fire in an image of that event. Both hazards share the hazard type <code>ffv:ExplosionHazard</code>, and the vocabulary supplies
+its recommended actions: cool and isolate the pressurised tank, and withdraw to a safety zone.</p>
+
+<h3 id="data-references">References</h3>
+<ul class="refs">
+  <li>Cortez, P. and Morais, A. (2007). A data mining approach to predict forest fires using meteorological data.
+  <i>Proceedings of the 13th Portuguese Conference on Artificial Intelligence (EPIA 2007)</i>. UCI Machine Learning Repository: Forest Fires.</li>
+  <li>Algerian Forest Fires dataset. UCI Machine Learning Repository.</li>
+  <li>Van Wagner, C. E. (1987). <i>Development and Structure of the Canadian Forest Fire Weather Index System</i>.
+  Canadian Forestry Service, Forestry Technical Report 35.</li>
+  <li>Radford, A. et al. (2021). Learning transferable visual models from natural language supervision (CLIP). <i>ICML</i>.</li>
+  <li>Li, J. et al. (2022). BLIP: Bootstrapping language-image pre-training for unified vision-language understanding and generation. <i>ICML</i>.</li>
+  <li>YAMNet sound-event classifier, trained on AudioSet. TensorFlow Hub: <a href="https://tfhub.dev/google/yamnet/1">tfhub.dev/google/yamnet/1</a>.</li>
+</ul>

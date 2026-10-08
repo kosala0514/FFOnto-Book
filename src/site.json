@@ -1,0 +1,15 @@
+{
+  "title": "FFOnto Book",
+  "subtitle": "The Forest Fire Ontology and its multimodal knowledge graph",
+  "version": "2.0.0",
+  "authors": "Charuni Kosala Jayaweera and Dulani Meedeniya",
+  "year": "2026",
+  "ontology_docs_url": "https://kosala0514.github.io/ffonto_html/",
+  "ontology_iri": "http://purl.org/ffonto",
+  "kaggle_url": "https://www.kaggle.com/datasets/charunikosala/forestfire-vqa-dataset",
+  "ontology_repo_url": "https://github.com/kosala0514/ffonto_html",
+  "bot_repo_url": "https://github.com/kosala0514/ffonto-bot",
+  "book_repo_url": "https://github.com/kosala0514/ffonto-book",
+  "base_path": "/ffonto-book/",
+  "description": "A guide to FFOnto, the Forest Fire Ontology: development lifecycle, data sources, querying with SPARQL and the FFOnto-Bot assistant."
+}

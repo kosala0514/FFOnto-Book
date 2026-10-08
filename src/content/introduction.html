@@ -1,0 +1,98 @@
+<p class="lede">FFOnto is an ontology for forest-fire situational awareness. It turns drone images, field audio and
+fire-weather records into one knowledge graph that people and software can question, with every answer traceable to
+the record and the model it came from.</p>
+
+<h2 id="what-is-ffonto">What is FFOnto?</h2>
+<p>During a wildfire, evidence arrives in different forms. A drone frame shows smoke over a ridge, a microphone picks
+up a crackle or an explosion, and the weather station reports low humidity and a rising Fire Weather Index (FWI).
+Machine-learning models turn each of these into labels, captions and scores, but those outputs live in separate
+files, use different vocabularies and often disagree with each other.</p>
+<p>The <b>Forest Fire Ontology (FFOnto)</b> gives these sources one shared meaning. It defines what a fire event, a
+data record, a scene entity and a model observation are, and how they relate. Data described with FFOnto becomes a
+<b>knowledge graph</b>: a network of facts that can be queried with SPARQL, checked for consistency, and extended by
+rules that derive conditions, conflicts and hazards.</p>
+<p>Three ideas shape the ontology:</p>
+<ul>
+  <li><b>World, data and claims are kept apart.</b> When a classifier says <i>smoke, 0.73</i>, FFOnto records
+  that as a claim about an image, with its confidence, threshold and model, not as a fact about the fire. Conflicting
+  claims can then sit side by side and be compared.</li>
+  <li><b>Fine-grained kinds are a vocabulary, not a class hierarchy.</b> Helmets, Pulaskis, crown fires and
+  scorched trees are SKOS concepts. A new tool or hazard is one new concept, and the schema does not change.</li>
+  <li><b>Knowledge that can be computed is derived by rules.</b> Danger conditions, cross-modal conflicts and
+  hazards are produced by SPARQL rules from the stored observations, so changing a threshold never means editing data.</li>
+</ul>
+<p>Version 2, described in this book, was rebuilt from scratch around <b>competency questions</b>: the questions the
+knowledge graph must be able to answer, taken from the ForestFire-VQA dataset.</p>
+
+<h2 id="ffonto-resources">Resources</h2>
+<table>
+  <thead><tr><th>Resource</th><th>What it contains</th></tr></thead>
+  <tbody>
+    <tr><td><a href="{{ontology_docs_url}}">Ontology documentation</a></td>
+        <td>Every class, property and concept with its definition (generated with WIDOCO), plus a WebVOWL diagram.</td></tr>
+    <tr><td><a href="{{ontology_docs_url}}vocab/">Controlled vocabulary</a></td>
+        <td>374 SKOS concepts in 15 schemes, browsable as a hierarchy.</td></tr>
+    <tr><td><a href="{{ontology_docs_url}}resources/ffonto-core.ttl">ffonto-core.ttl</a>,
+            <a href="{{ontology_docs_url}}resources/ffonto-vocab.ttl">ffonto-vocab.ttl</a>,
+            <a href="{{ontology_docs_url}}resources/danger-rules.ttl">danger-rules.ttl</a></td>
+        <td>The three ontology modules in Turtle.</td></tr>
+    <tr><td><a href="{{ontology_docs_url}}resources/ffonto-shapes.ttl">ffonto-shapes.ttl</a></td>
+        <td>SHACL shapes that check data quality (missing metadata, alert readiness, missing PPE).</td></tr>
+    <tr><td><a href="{{ontology_docs_url}}resources/ffonto.context.jsonld">ffonto.context.jsonld</a></td>
+        <td>JSON-LD context that maps the raw image JSON, audio JSON and weather CSV fields to ontology terms.</td></tr>
+    <tr><td><a href="{{kaggle_url}}">ForestFire-VQA dataset</a></td>
+        <td>Images, audio and question–answer pairs from which the competency questions were derived.</td></tr>
+    <tr><td><a href="{{bot_repo_url}}">FFOnto-Bot source code</a></td>
+        <td>The question-answering assistant described in <a href="/docs/ffonto-bot">FFOnto-Bot</a>.</td></tr>
+  </tbody>
+</table>
+<p>Namespaces used throughout this book:</p>
+<pre><code class="language-sparql">PREFIX ffo:  <http://purl.org/ffonto#>          # core schema
+PREFIX ffv:  <http://purl.org/ffonto/vocab#>    # controlled vocabulary (SKOS)
+PREFIX ffr:  <http://purl.org/ffonto/data/rule/> # danger rules
+PREFIX ffd:  <http://purl.org/ffonto/data/>     # instance data</code></pre>
+
+<h2 id="ffonto-at-a-glance">At a Glance</h2>
+<dl class="glance">
+  <div><dt>Classes</dt><dd>23</dd></div>
+  <div><dt>Object properties</dt><dd>40</dd></div>
+  <div><dt>Datatype properties</dt><dd>57</dd></div>
+  <div><dt>SKOS concepts</dt><dd>374 in 15 schemes</dd></div>
+  <div><dt>Competency questions</dt><dd>27 (CQ01–CQ26 and CQ07b)</dd></div>
+  <div><dt>Derivation rules</dt><dd>9 (R00–R08)</dd></div>
+  <div><dt>Danger rules</dt><dd>9 weather / FWI thresholds</dd></div>
+  <div><dt>Modalities</dt><dd>image, audio, tabular weather</dd></div>
+  <div><dt>OWL profile</dt><dd>OWL 2 DL</dd></div>
+  <div><dt>Reused standards</dt><dd>SOSA, PROV-O, SKOS, Dublin Core</dd></div>
+  <div><dt>Licence</dt><dd>CC BY 4.0</dd></div>
+  <div><dt>Version</dt><dd>{{version}}</dd></div>
+</dl>
+
+<h2 id="ffonto-lifecycle">Lifecycle</h2>
+<p>FFOnto was developed in five stages. Each stage produced an artefact that the next one builds on, and evaluation
+results fed back into the earlier stages. The <a href="/docs/development-lifecycle">Development Lifecycle</a>
+chapter describes each stage in detail.</p>
+<figure class="diagram">
+<svg viewBox="0 0 760 210" role="img" aria-labelledby="lc-title" xmlns="http://www.w3.org/2000/svg">
+  <title id="lc-title">The five stages of the FFOnto development lifecycle, with feedback from evaluation</title>
+  <defs><marker id="lc-ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <path d="M0,0 L10,5 L0,10 z" class="d-fill-muted"/></marker></defs>
+  <g class="d-box">
+    <rect x="4" y="40" width="136" height="76" rx="6"/><rect x="158" y="40" width="136" height="76" rx="6"/>
+    <rect x="312" y="40" width="136" height="76" rx="6"/><rect x="466" y="40" width="136" height="76" rx="6"/>
+    <rect x="620" y="40" width="136" height="76" rx="6"/>
+  </g>
+  <g class="d-text" text-anchor="middle">
+    <text x="72" y="70" class="d-strong">Knowledge</text><text x="72" y="88" class="d-strong">acquisition</text><text x="72" y="105" class="d-small">dataset, literature</text>
+    <text x="226" y="70" class="d-strong">Requirements</text><text x="226" y="88" class="d-small">competency</text><text x="226" y="105" class="d-small">questions</text>
+    <text x="380" y="70" class="d-strong">Implementation</text><text x="380" y="88" class="d-small">OWL, SKOS, rules,</text><text x="380" y="105" class="d-small">SHACL, JSON-LD</text>
+    <text x="534" y="70" class="d-strong">Evaluation</text><text x="534" y="88" class="d-small">reasoner, ROBOT,</text><text x="534" y="105" class="d-small">OOPS!, CQ tests</text>
+    <text x="688" y="70" class="d-strong">KG construction</text><text x="688" y="88" class="d-small">lifting, GraphDB,</text><text x="688" y="105" class="d-small">publication</text>
+  </g>
+  <g class="d-line" marker-end="url(#lc-ah)">
+    <path d="M140,78 H156"/><path d="M294,78 H310"/><path d="M448,78 H464"/><path d="M602,78 H618"/>
+    <path d="M534,116 V160 H226 V118"/>
+  </g>
+  <text x="380" y="180" text-anchor="middle" class="d-text d-small">evaluation findings revise the questions and the model</text>
+</svg>
+</figure>

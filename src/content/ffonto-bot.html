@@ -1,0 +1,97 @@
+<p class="lede">FFOnto-Bot is a chat assistant that answers questions in plain English from the FFOnto knowledge
+graph. It runs entirely on local models, and every answer shows the query and the facts it was based on.</p>
+
+<figure class="diagram">
+<svg viewBox="0 0 760 300" role="img" aria-labelledby="bot-title" xmlns="http://www.w3.org/2000/svg">
+  <title id="bot-title">How FFOnto-Bot answers a question: routing to the knowledge graph, document search or a short reply</title>
+  <defs><marker id="bt-ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <path d="M0,0 L10,5 L0,10 z" class="d-fill-muted"/></marker></defs>
+  <g class="d-box">
+    <rect x="4" y="118" width="120" height="56" rx="6"/>
+    <rect x="164" y="118" width="120" height="56" rx="6"/>
+    <rect x="334" y="20" width="200" height="72" rx="6"/>
+    <rect x="334" y="118" width="200" height="56" rx="6"/>
+    <rect x="334" y="200" width="200" height="72" rx="6"/>
+    <rect x="590" y="118" width="166" height="56" rx="6"/>
+  </g>
+  <g class="d-text" text-anchor="middle">
+    <text x="64" y="142" class="d-strong">Question</text><text x="64" y="160" class="d-small">+ selected record</text>
+    <text x="224" y="142" class="d-strong">Router</text><text x="224" y="160" class="d-small">local LLM</text>
+    <text x="434" y="44" class="d-strong">Knowledge graph</text><text x="434" y="62" class="d-small">tested CQ query, or</text><text x="434" y="78" class="d-small">checked generated SPARQL</text>
+    <text x="434" y="142" class="d-strong">Short reply</text><text x="434" y="160" class="d-small">greetings, help</text>
+    <text x="434" y="224" class="d-strong">Documents</text><text x="434" y="242" class="d-small">ontology facts, text,</text><text x="434" y="258" class="d-small">tables and figures</text>
+    <text x="673" y="142" class="d-strong">Answer</text><text x="673" y="160" class="d-small">+ evidence + chart</text>
+  </g>
+  <g class="d-line" marker-end="url(#bt-ah)">
+    <path d="M124,146 H160"/><path d="M284,140 C305,140 305,56 330,56"/><path d="M284,146 H330"/>
+    <path d="M284,152 C305,152 305,236 330,236"/>
+    <path d="M534,56 C560,56 560,140 586,140"/><path d="M534,146 H586"/><path d="M534,236 C560,236 560,152 586,152"/>
+  </g>
+</svg>
+</figure>
+
+<h2 id="github">GitHub</h2>
+<p>The source code is at <a href="{{bot_repo_url}}">{{bot_repo_url}}</a>. The repository contains:</p>
+<ul>
+  <li>the ontology modules;</li>
+  <li>the lifting scripts and the derivation rules;</li>
+  <li>the 27 competency-question queries and their tests;</li>
+  <li>the GraphDB loader;</li>
+  <li>the assistant itself: the FastAPI service, the Streamlit chat interface, an optional MCP server and the evaluation scripts.</li>
+</ul>
+
+<h2 id="how-to-use">How to Use</h2>
+<p>FFOnto-Bot needs GraphDB with the FFOnto repository loaded, and Ollama for the local language models. A GPU with
+16 GB of memory runs the default 14-billion-parameter model comfortably.</p>
+<ol class="steps">
+  <li><b>Get the models.</b>
+<pre><code class="language-shell">ollama pull qwen2.5:14b      # routing and answers
+ollama pull bge-m3           # embeddings for search
+ollama pull qwen2.5vl:7b     # optional: reads figures in documents</code></pre></li>
+  <li><b>Install and index.</b>
+<pre><code class="language-shell">pip install -r qa/requirements-qa.txt
+python graphdb/load_graphdb.py        # load ontology, data and rules into GraphDB
+python -m qa.build_index              # example questions and documents</code></pre></li>
+  <li><b>Start the service and the chat.</b>
+<pre><code class="language-shell">uvicorn qa.api:app --port 8000
+streamlit run qa/ui_streamlit.py      # opens http://localhost:8501</code></pre></li>
+  <li><b>Ask.</b> Choose an image or audio record in the sidebar, then ask about it, for example
+  <i>Are the firefighters wearing gloves?</i>, <i>Is the smoke score above the threshold?</i> or
+  <i>What hazards are present?</i>. Questions about weather need a site and date, such as
+  <i>What was the FWI at Bejaia on 2012-06-07?</i>. Open <b>Evidence</b> under an answer to see the query and rows.</li>
+</ol>
+
+<h2 id="capabilities">Capabilities</h2>
+<dl class="caps">
+  <dt>Answers from the graph, not from memory</dt>
+  <dd>For questions about data, the language model only chooses which tested competency-question query to run. The
+  answer is written from the returned rows alone. If the graph has no evidence, the bot says so instead of guessing.</dd>
+  <dt>Questions outside the 27 patterns</dt>
+  <dd>When no competency question fits, the bot writes its own SPARQL from the ontology schema. The query is
+  checked first: read-only, a row limit enforced, and only ontology terms used. It runs only if it passes.</dd>
+  <dt>General wildfire knowledge</dt>
+  <dd>Definitions and advice come from your own documents and the ontology's background knowledge, with citations.
+  Charts, maps and tables inside PDFs are searchable too, and the figures an answer relies on are shown with it.</dd>
+  <dt>Visual answers</dt>
+  <dd>Results such as model scores against thresholds, FWI trends or weather against danger thresholds come with a
+  chart drawn from the same rows.</dd>
+  <dt>Traceable evidence</dt>
+  <dd>Every reply carries its route, the competency question, the SPARQL query, the result rows and the sources.</dd>
+  <dt>Private by design</dt>
+  <dd>All models run locally through Ollama, so no data or question leaves the machine.</dd>
+  <dt>Tool access for other agents</dt>
+  <dd>An optional MCP server exposes the knowledge graph as tools: list and run competency questions, run SPARQL,
+  look up ontology terms and search documents.</dd>
+</dl>
+
+<h2 id="intended-users">Intended Users</h2>
+<ul>
+  <li><b>Fire and emergency analysts</b> who need a quick, explainable summary of what the images, audio and weather
+  say about an incident, including where they disagree.</li>
+  <li><b>Researchers</b> in knowledge graphs, multimodal learning and disaster informatics who want a tested
+  benchmark for ontology-grounded question answering.</li>
+  <li><b>Data and model developers</b> who want to inspect model outputs, thresholds and provenance across a dataset.</li>
+  <li><b>Educators and students</b> learning about fire weather, firefighter safety and semantic technologies.</li>
+</ul>
+<p class="note">FFOnto-Bot supports decisions and does not replace them. Model outputs can be wrong, the danger
+thresholds in version {{version}} are placeholders, and operational decisions remain with qualified personnel.</p>

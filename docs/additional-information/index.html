@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en" data-root="../../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Additional Information | FFOnto Book</title>
+<meta name="description" content="A guide to FFOnto, the Forest Fire Ontology: development lifecycle, data sources, querying with SPARQL and the FFOnto-Bot assistant.">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;0,7..72,700;1,7..72,400&family=Public+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="../../assets/book.css">
+<script>
+  try { var t = localStorage.getItem("ffo-theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
+</head>
+<body class="page-chapter">
+<a class="skip" href="#main">Skip to content</a>
+<div class="progress" aria-hidden="true"><div class="progress-ramp" style="background:linear-gradient(90deg, #3b8b3e 0% 20%, #1d4f91 20% 40%, #e3b21b 40% 60%, #e0761b 60% 80%, #b9311f 80% 100%)"></div><div class="progress-cover" data-chapter="5" data-chapters="6" style="left:83.333%"></div></div>
+<header class="topbar">
+  <button class="menu-btn" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open chapters">
+    <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+  </button>
+  <a class="brand" href="../../"><span class="ramp ramp-mini" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></span>FFOnto Book</a>
+  <div class="search">
+    <label class="sr-only" for="search-input">Search the book</label>
+    <input id="search-input" type="search" placeholder="Search the book" autocomplete="off">
+    <div class="search-results" id="search-results" role="listbox" hidden></div>
+  </div>
+  <nav class="toplinks" aria-label="External">
+    <a href="https://kosala0514.github.io/ffonto_html/">Ontology docs</a>
+    <a href="https://github.com/kosala0514/ffonto-book">GitHub</a>
+  </nav>
+  <button class="theme-btn" type="button" aria-label="Switch between light and dark theme">
+    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z" fill="currentColor"/></svg>
+  </button>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar" aria-label="Chapters">
+    <nav><ol class="chapters"><li class="chapter-item"><a class="chapter-link" href="../../docs/introduction/"><span class="num">1</span>Introduction</a><ul class="sections"><li><a href="../../docs/introduction/#what-is-ffonto">What is FFOnto?</a></li><li><a href="../../docs/introduction/#ffonto-resources">Resources</a></li><li><a href="../../docs/introduction/#ffonto-at-a-glance">At a Glance</a></li><li><a href="../../docs/introduction/#ffonto-lifecycle">Lifecycle</a></li></ul></li><li class="chapter-item"><a class="chapter-link" href="../../docs/development-lifecycle/"><span class="num">2</span>Development Lifecycle</a><ul class="sections"><li><a href="../../docs/development-lifecycle/#development">Knowledge Acquisition &amp; Conceptualisation</a></li><li><a href="../../docs/development-lifecycle/#requirements">Requirements Definition</a></li><li><a href="../../docs/development-lifecycle/#implementation">Implementation</a></li><li><a href="../../docs/development-lifecycle/#evaluation">Evaluation</a></li><li><a href="../../docs/development-lifecycle/#publication">Knowledge Graph Construction</a></li></ul></li><li class="chapter-item"><a class="chapter-link" href="../../docs/data-sources/"><span class="num">3</span>Data Sources</a><ul class="sections"><li><a href="../../docs/data-sources/#weather-data">Weather Data</a></li><li><a href="../../docs/data-sources/#image-data">Image Data</a></li><li><a href="../../docs/data-sources/#audio-data">Audio Data</a></li></ul></li><li class="chapter-item"><a class="chapter-link" href="../../docs/ffonto-bot/"><span class="num">4</span>FFOnto-Bot</a><ul class="sections"><li><a href="../../docs/ffonto-bot/#github">GitHub</a></li><li><a href="../../docs/ffonto-bot/#how-to-use">How to Use</a></li><li><a href="../../docs/ffonto-bot/#capabilities">Capabilities</a></li><li><a href="../../docs/ffonto-bot/#intended-users">Intended Users</a></li></ul></li><li class="chapter-item"><a class="chapter-link" href="../../docs/using-ffonto/"><span class="num">5</span>Using FFOnto</a><ul class="sections"><li><a href="../../docs/using-ffonto/#how-to-query">How to Query FFOnto</a></li><li><a href="../../docs/using-ffonto/#sparql-examples">SPARQL Examples</a></li></ul></li><li class="chapter-item is-current"><a class="chapter-link" href="../../docs/additional-information/" aria-current="page"><span class="num">6</span>Additional Information</a><ul class="sections"><li><a href="../../docs/additional-information/#applications">Applications &amp; Use Cases</a></li><li><a href="../../docs/additional-information/#limitations">Limitations &amp; Future Work</a></li><li><a href="../../docs/additional-information/#acknowledgements">Acknowledgements</a></li><li><a href="../../docs/additional-information/#citation">Cite FFOnto</a></li></ul></li></ol></nav>
+  </aside>
+  <main id="main" class="content">
+    <article class="chapter"><p class="chapter-no">Chapter 6</p><h1>Additional Information</h1><p class="lede">Where FFOnto can be used, what it cannot do yet, who helped build it, and how to cite it.</p>
+
+<h2 id="applications">Applications &amp; Use Cases</h2>
+<dl class="caps">
+  <dt>Incident situational awareness</dt>
+  <dd>Combine what the drone images show, what the microphones hear and what the weather implies for one fire event,
+  and see hazards with their recommended actions in one place.</dd>
+  <dt>Firefighter safety checks</dt>
+  <dd>Compare the protective equipment seen in an image with the equipment each role requires, and flag what is missing.</dd>
+  <dt>Model monitoring</dt>
+  <dd>Because model outputs are stored as observations with thresholds and provenance, the graph shows where
+  classifiers, captioners and audio taggers disagree. These cases are useful for reviewing models and data.</dd>
+  <dt>Fire-weather analysis</dt>
+  <dd>Query FWI components and their trend by site and date, and see which operational conditions the danger rules imply.</dd>
+  <dt>Explainable question answering</dt>
+  <dd>FFOnto-Bot shows how an ontology can keep a language model's answers tied to evidence. It can serve as a
+  baseline for research on knowledge-graph question answering.</dd>
+  <dt>Post-fire assessment and teaching</dt>
+  <dd>Burn evidence, ecosystem impacts and restoration measures in the vocabulary support damage assessment and
+  teaching about fire ecology.</dd>
+</dl>
+
+<h2 id="limitations">Limitations &amp; Future Work</h2>
+<table>
+  <thead><tr><th>Limitation</th><th>Planned work</th></tr></thead>
+  <tbody>
+    <tr><td>The danger-rule thresholds are placeholders.</td>
+        <td>Replace them with values from published fire-danger classifications, each with its source.</td></tr>
+    <tr><td>Scene facts are only as good as the vision-language model that extracts them.</td>
+        <td>Measure extraction precision and recall on a hand-annotated subset, and keep human validation flags.</td></tr>
+    <tr><td>Spatial relations such as <i>near</i> are judged from the image, not measured.</td>
+        <td>Add geometry with GeoSPARQL where coordinates are available.</td></tr>
+    <tr><td>Many records lack capture time and coordinates, which limits linking across modalities.</td>
+        <td>Use the SHACL reports to complete metadata at capture time.</td></tr>
+    <tr><td>Confidence of individual scene entities is not stored yet.</td>
+        <td>Model scene attributes as observations with confidence, like classifier scores.</td></tr>
+    <tr><td>The assistant answers each message on its own.</td>
+        <td>Support follow-up questions in a conversation.</td></tr>
+    <tr><td>The end-to-end evaluation of the assistant is preliminary.</td>
+        <td>Evaluate on all held-out ForestFire-VQA questions once scene graphs exist for every image, and compare with
+        a vision-language model answering directly from the image.</td></tr>
+  </tbody>
+</table>
+
+<h2 id="acknowledgements">Acknowledgements</h2>
+<p>FFOnto was developed by Charuni Kosala Jayaweera under the supervision of Prof. Dulani Meedeniya.</p>
+<p>The work builds on open standards and tools: the W3C SOSA, PROV-O, SKOS and SHACL recommendations and DCMI
+Metadata Terms. It also builds on the ROBOT tool and the HermiT reasoner for validation, the OOPS! pitfall scanner,
+WIDOCO for the ontology documentation, GraphDB for storage, and Ollama with open Qwen models for the assistant. The
+weather data come from the public Forest Fires (Montesinho) and Algerian Forest Fires datasets in the UCI Machine
+Learning Repository.</p>
+
+<h2 id="citation">Cite FFOnto</h2>
+<p>If you use FFOnto, the ForestFire-VQA dataset or FFOnto-Bot in your work, please cite:</p>
+<p class="cite">Jayaweera, C. K. and Meedeniya, D. (2026). <i>FFOnto: Forest Fire Ontology</i>, version 2.0.0.
+http://purl.org/ffonto</p>
+<div class="code"><div class="code-head"><span>BibTeX</span><button type="button" class="copy">Copy</button></div><pre><code class="language-bibtex"><span class="tk-kw">@misc</span>{ffonto2026,
+  <span class="tk-key">author</span>       = {Jayaweera, Charuni Kosala and Meedeniya, Dulani},
+  <span class="tk-key">title</span>        = {{FFOnto}: Forest Fire Ontology},
+  <span class="tk-key">version</span>      = {2.0.0},
+  <span class="tk-key">year</span>         = {2026},
+  <span class="tk-key">howpublished</span> = {\url{http://purl.org/ffonto}},
+  <span class="tk-key">note</span>         = {Documentation: https://kosala0514.github.io/ffonto_html/}
+}</code></pre></div>
+<p>The ontology is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.</p>
+</article>
+    <nav class="pager" aria-label="Chapters"><a class="prev" href="../../docs/using-ffonto/"><span>Previous</span>Using FFOnto</a></nav>
+    <footer class="foot">
+      <p>FFOnto Book, version 2.0.0. Content licensed under CC BY 4.0.
+      <a href="https://github.com/kosala0514/ffonto-book">Edit this book on GitHub</a>.</p>
+    </footer>
+  </main>
+  <aside class="toc" aria-label="On this page"><p class="toc-title">On this page</p><ul><li><a href="#applications">Applications &amp; Use Cases</a></li><li><a href="#limitations">Limitations &amp; Future Work</a></li><li><a href="#acknowledgements">Acknowledgements</a></li><li><a href="#citation">Cite FFOnto</a></li></ul></aside>
+</div>
+<div class="scrim" hidden></div>
+<script src="../../assets/book.js" defer></script>
+</body>
+</html>

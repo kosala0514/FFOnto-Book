@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en" data-root="../../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Development Lifecycle | FFOnto Book</title>
+<meta name="description" content="A guide to FFOnto, the Forest Fire Ontology: development lifecycle, data sources, querying with SPARQL and the FFOnto-Bot assistant.">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;0,7..72,700;1,7..72,400&family=Public+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="../../assets/book.css">
+<script>
+  try { var t = localStorage.getItem("ffo-theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
+</head>
+<body class="page-chapter">
+<a class="skip" href="#main">Skip to content</a>
+<div class="progress" aria-hidden="true"><div class="progress-ramp" style="background:linear-gradient(90deg, #3b8b3e 0% 20%, #1d4f91 20% 40%, #e3b21b 40% 60%, #e0761b 60% 80%, #b9311f 80% 100%)"></div><div class="progress-cover" data-chapter="1" data-chapters="6" style="left:16.667%"></div></div>
+<header class="topbar">
+  <button class="menu-btn" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open chapters">
+    <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+  </button>
+  <a class="brand" href="../../"><span class="ramp ramp-mini" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></span>FFOnto Book</a>
+  <div class="search">
+    <label class="sr-only" for="search-input">Search the book</label>
+    <input id="search-input" type="search" placeholder="Search the book" autocomplete="off">
+    <div class="search-results" id="search-results" role="listbox" hidden></div>
+  </div>
+  <nav class="toplinks" aria-label="External">
+    <a href="https://kosala0514.github.io/ffonto_html/">Ontology docs</a>
+    <a href="https://github.com/kosala0514/ffonto-book">GitHub</a>
+  </nav>
+  <button class="theme-btn" type="button" aria-label="Switch between light and dark theme">
+    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z" fill="currentColor"/></svg>
+  </button>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar" aria-label="Chapters">
+    <nav><ol class="chapters"><li class="chapter-item"><a class="chapter-link" href="../../docs/introduction/"><span class="num">1</span>Introduction</a><ul class="sections"><li><a href="../../docs/introduction/#what-is-ffonto">What is FFOnto?</a></li><li><a href="../../docs/introduction/#ffonto-resources">Resources</a></li><li><a href="../../docs/introduction/#ffonto-at-a-glance">At a Glance</a></li><li><a href="../../docs/introduction/#ffonto-lifecycle">Lifecycle</a></li></ul></li><li class="chapter-item is-current"><a class="chapter-link" href="../../docs/development-lifecycle/" aria-current="page"><span class="num">2</span>Development Lifecycle</a><ul class="sections"><li><a href="../../docs/development-lifecycle/#development">Knowledge Acquisition &amp; Conceptualisation</a></li><li><a href="../../docs/development-lifecycle/#requirements">Requirements Definition</a></li><li><a href="../../docs/development-lifecycle/#implementation">Implementation</a></li><li><a href="../../docs/development-lifecycle/#evaluation">Evaluation</a></li><li><a href="../../docs/development-lifecycle/#publication">Knowledge Graph Construction</a></li></ul></li><li class="chapter-item"><a class="chapter-link" href="../../docs/data-sources/"><span class="num">3</span>Data Sources</a><ul class="sections"><li><a href="../../docs/data-sources/#weather-data">Weather Data</a></li><li><a href="../../docs/data-sources/#image-data">Image Data</a></li><li><a href="../../docs/data-sources/#audio-data">Audio Data</a></li></ul></li><li class="chapter-item"><a class="chapter-link" href="../../docs/ffonto-bot/"><span class="num">4</span>FFOnto-Bot</a><ul class="sections"><li><a href="../../docs/ffonto-bot/#github">GitHub</a></li><li><a href="../../docs/ffonto-bot/#how-to-use">How to Use</a></li><li><a href="../../docs/ffonto-bot/#capabilities">Capabilities</a></li><li><a href="../../docs/ffonto-bot/#intended-users">Intended Users</a></li></ul></li><li class="chapter-item"><a class="chapter-link" href="../../docs/using-ffonto/"><span class="num">5</span>Using FFOnto</a><ul class="sections"><li><a href="../../docs/using-ffonto/#how-to-query">How to Query FFOnto</a></li><li><a href="../../docs/using-ffonto/#sparql-examples">SPARQL Examples</a></li></ul></li><li class="chapter-item"><a class="chapter-link" href="../../docs/additional-information/"><span class="num">6</span>Additional Information</a><ul class="sections"><li><a href="../../docs/additional-information/#applications">Applications &amp; Use Cases</a></li><li><a href="../../docs/additional-information/#limitations">Limitations &amp; Future Work</a></li><li><a href="../../docs/additional-information/#acknowledgements">Acknowledgements</a></li><li><a href="../../docs/additional-information/#citation">Cite FFOnto</a></li></ul></li></ol></nav>
+  </aside>
+  <main id="main" class="content">
+    <article class="chapter"><p class="chapter-no">Chapter 2</p><h1>Development Lifecycle</h1><p class="lede">This chapter follows FFOnto from the first look at the data to a validated knowledge graph. Each section
+corresponds to one stage of the lifecycle.</p>
+
+<h2 id="development">Knowledge Acquisition &amp; Conceptualisation</h2>
+<p>The starting point was the ForestFire-VQA dataset and the first version of FFOnto. The dataset combines drone
+images, field audio and fire-weather tables with more than a thousand question–answer pairs written about them.
+Reading those questions shows what people actually want to know: whether smoke is above a detection threshold,
+whether firefighters wear the right protective equipment, what the FWI trend is, and which hazards a scene contains.</p>
+<p>The first version of the ontology had grown without that focus. It contained duplicated concepts, classes that no
+question used, and properties that connected unrelated parts of the model. Model outputs were stored as if they were
+facts about the world, which made it impossible to represent two models disagreeing.</p>
+<p>The conceptual model for version 2 separates three layers:</p>
+<figure class="diagram">
+<svg viewBox="0 0 760 250" role="img" aria-labelledby="layers-title" xmlns="http://www.w3.org/2000/svg">
+  <title id="layers-title">FFOnto layers: world, data and claims, and the relations between them</title>
+  <defs><marker id="ly-ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <path d="M0,0 L10,5 L0,10 z" class="d-fill-muted"/></marker></defs>
+  <g class="d-box"><rect x="4" y="28" width="206" height="190" rx="6"/><rect x="277" y="28" width="206" height="190" rx="6"/><rect x="550" y="28" width="206" height="190" rx="6"/></g>
+  <g class="d-text d-strong" text-anchor="middle"><text x="107" y="18">World</text><text x="380" y="18">Data</text><text x="653" y="18">Claims</text></g>
+  <g class="d-text">
+    <text x="18" y="56" class="d-strong">FireEvent</text><text x="18" y="74" class="d-small">one fire incident</text>
+    <text x="18" y="104" class="d-strong">Site</text><text x="18" y="122" class="d-small">station, camera, grid cell</text>
+    <text x="18" y="152" class="d-strong">SceneEntity</text><text x="18" y="170" class="d-small">firefighter, fire front, house</text><text x="18" y="188" class="d-small">kind from the vocabulary</text>
+    <text x="291" y="56" class="d-strong">ImageRecord</text><text x="291" y="80" class="d-strong">AudioRecord</text><text x="291" y="104" class="d-strong">WeatherRecord</text>
+    <text x="291" y="134" class="d-strong">Caption</text><text x="291" y="164" class="d-strong">SceneDescription</text><text x="291" y="182" class="d-small">output of a vision model</text>
+    <text x="564" y="56" class="d-strong">ModelObservation</text><text x="564" y="74" class="d-small">class, confidence, threshold</text><text x="564" y="92" class="d-small">attributed to a Model</text>
+    <text x="564" y="128" class="d-strong">Derived by rules</text><text x="564" y="146" class="d-small">detected class, condition</text><text x="564" y="164" class="d-small">ModalityConflict</text><text x="564" y="182" class="d-small">Hazard and actions</text>
+  </g>
+  <g class="d-line" marker-end="url(#ly-ah)"><path d="M277,64 H214"/><path d="M483,64 H546"/><path d="M277,160 H214"/></g>
+  <g class="d-text d-small" text-anchor="middle"><text x="244" y="56">about</text><text x="515" y="56">claims</text><text x="244" y="152">depicts</text></g>
+</svg>
+<figcaption>Data records are about events and depict scene entities; model observations are claims about the records.</figcaption>
+</figure>
+<p>The <b>world</b> layer holds what exists: fire events, sites and the entities seen in a scene. The <b>data</b>
+layer holds what was captured: image, audio and weather records with their metadata. The <b>claims</b> layer holds
+what models said about the data. Standard ontologies anchor each layer: SOSA for observations, sensors and features
+of interest, PROV-O for provenance, SKOS for the vocabulary, and Dublin Core for metadata.</p>
+
+<h2 id="requirements">Requirements Definition</h2>
+<p>Requirements were written as competency questions (CQs). Every question in ForestFire-VQA was mapped to the
+query pattern that would answer it, and questions that share a pattern were grouped. 1,004 dataset questions reduce to
+<b>27 competency questions</b>. 291 of the dataset questions are general knowledge (for example, how to treat
+smoke inhalation) rather than questions about a specific record, so they are answered from documents rather than the
+knowledge graph.</p>
+<table>
+  <thead><tr><th>Group</th><th>Competency questions</th><th>Example dataset question</th></tr></thead>
+  <tbody>
+    <tr><td>Records and metadata</td><td>CQ01–CQ03, CQ07b</td><td>What is the image file checksum (SHA-256)?</td></tr>
+    <tr><td>Model scores and captions</td><td>CQ04–CQ07</td><td>Is the smoke score above the smoke threshold?</td></tr>
+    <tr><td>Weather and FWI</td><td>CQ08–CQ10</td><td>Is wind speed high enough to reduce aerial drop effectiveness?</td></tr>
+    <tr><td>Scene content</td><td>CQ11–CQ22</td><td>Are firefighters wearing helmets?</td></tr>
+    <tr><td>Sound events</td><td>CQ23</td><td>Is an explosion detected in the latest audio clip?</td></tr>
+    <tr><td>Risk, response and ecology</td><td>CQ24–CQ26</td><td>Are responders at risk from exploding materials?</td></tr>
+  </tbody>
+</table>
+<p>Two rules followed from this stage. A term enters the ontology only if a competency question needs it, and every
+competency question must be answerable by one tested SPARQL query.</p>
+
+<h2 id="implementation">Implementation</h2>
+<p>The ontology is written in Turtle and split into modules, so the schema stays small while the vocabulary grows:</p>
+<ul>
+  <li><b>Core schema</b> (<code>ffonto-core.ttl</code>): 23 classes, 40 object properties and 57 datatype
+  properties in OWL 2 DL. External terms from SOSA, PROV-O, SKOS and Dublin Core are declared locally, so the
+  ontology loads offline.</li>
+  <li><b>Vocabulary</b> (<code>ffonto-vocab.ttl</code>): 374 SKOS concepts organised with <code>skos:broader</code>.
+  Concepts carry keywords (<code>skos:hiddenLabel</code>) and background knowledge such as required PPE and the
+  actions that mitigate a hazard.</li>
+  <li><b>Danger rules</b> (<code>danger-rules.ttl</code>): weather and FWI thresholds stored as data.</li>
+  <li><b>Derivation rules</b> R00–R08: SPARQL <code>CONSTRUCT</code> queries that derive detections, caption
+  concepts, danger conditions, modality conflicts, hazards and the previous weather record.</li>
+  <li><b>SHACL shapes</b> for data quality, and a <b>JSON-LD context</b> that lifts the raw JSON and CSV files into RDF.</li>
+</ul>
+<div class="code"><div class="code-head"><span>Turtle</span><button type="button" class="copy">Copy</button></div><pre><code class="language-turtle"><span class="tk-pn">ffo:ModelObservation</span> <span class="tk-kw">a</span> <span class="tk-pn">owl:Class</span> ;
+    <span class="tk-pn">rdfs:subClassOf</span> <span class="tk-pn">sosa:Observation</span> ;
+    <span class="tk-pn">rdfs:label</span> <span class="tk-str">&quot;Model observation&quot;@en</span> ;
+    <span class="tk-pn">rdfs:comment</span> &quot;A claim made by <span class="tk-kw">a</span> model about <span class="tk-kw">a</span> data record: either <span class="tk-kw">a</span> predicted class
+        with <span class="tk-kw">a</span> confidence (<span class="tk-pn">ffo:predictedClass</span>) or <span class="tk-kw">a</span> categorical value for an observable
+        property (<span class="tk-pn">sosa:observedProperty</span> + <span class="tk-pn">ffo:hasValueConcept</span>).&quot;@en .
+
+<span class="tk-pn">ffv:Pulaski</span> <span class="tk-kw">a</span> <span class="tk-pn">skos:Concept</span> ;
+    <span class="tk-pn">skos:prefLabel</span> <span class="tk-str">&quot;Pulaski&quot;@en</span> ;
+    <span class="tk-pn">skos:inScheme</span>  <span class="tk-pn">ffv:EntityKindScheme</span> ;
+    <span class="tk-pn">skos:broader</span>   <span class="tk-pn">ffv:HandTool</span> ;
+    <span class="tk-pn">skos:hiddenLabel</span> <span class="tk-str">&quot;pulaski&quot;@en</span> .</code></pre></div>
+
+<h2 id="evaluation">Evaluation</h2>
+<p>The ontology and the knowledge graph were checked at several levels:</p>
+<table>
+  <thead><tr><th>Check</th><th>Tool</th><th>Result</th></tr></thead>
+  <tbody>
+    <tr><td>OWL 2 DL profile</td><td>ROBOT</td><td>Passes</td></tr>
+    <tr><td>Consistency of schema and data</td><td>HermiT reasoner</td><td>Consistent</td></tr>
+    <tr><td>Negative tests (deliberately wrong data)</td><td>HermiT</td><td>4 of 4 detected as inconsistent</td></tr>
+    <tr><td>Labels, definitions, SKOS hygiene</td><td>ROBOT report with a custom profile</td><td>0 errors, 0 warnings</td></tr>
+    <tr><td>Modelling pitfalls</td><td>OOPS!</td><td>Remaining items reviewed and documented</td></tr>
+    <tr><td>Every CQ answers correctly on test data</td><td>pytest suite</td><td>59 tests pass</td></tr>
+    <tr><td>Data quality of the lifted graph</td><td>SHACL (pySHACL)</td><td>Conforms</td></tr>
+  </tbody>
+</table>
+<p>The question-answering assistant built on the graph is evaluated separately, stage by stage: routing, choice of
+competency question, query execution, answer quality and faithfulness to the evidence. In preliminary runs on held-out
+ForestFire-VQA questions, routing between the knowledge graph and general knowledge reached 0.985 accuracy, and
+choosing the right competency question reached 0.767. The end-to-end evaluation is waiting for scene graphs extracted
+from all dataset images.</p>
+
+<h2 id="publication">Knowledge Graph Construction</h2>
+<p>Raw records are lifted into RDF in four steps:</p>
+<ol>
+  <li><b>Normalise.</b> A Python lifter reads each image JSON, audio JSON and weather CSV row, fixes missing values
+  and builds stable identifiers, for example one site per weather grid cell.</li>
+  <li><b>Map.</b> The JSON-LD context turns each field into an ontology term, so <code>confidence</code> becomes
+  <code>ffo:confidence</code> and <code>event_id</code> links the record to its <code>ffo:FireEvent</code>.</li>
+  <li><b>Load.</b> The graph is stored in GraphDB in one repository with a named graph per source: ontology,
+  vocabulary, image, audio, weather, scene and inferred. The RDFS-Plus ruleset adds subclass and inverse inferences.</li>
+  <li><b>Derive.</b> Rules R00–R08 run as SPARQL updates into the <code>inferred</code> graph, which is rebuilt on
+  every load.</li>
+</ol>
+<p>The ontology itself is published as HTML documentation, with Turtle, RDF/XML and JSON-LD downloads, at
+<a href="https://kosala0514.github.io/ffonto_html/">the ontology documentation site</a>.</p>
+</article>
+    <nav class="pager" aria-label="Chapters"><a class="prev" href="../../docs/introduction/"><span>Previous</span>Introduction</a><a class="next" href="../../docs/data-sources/"><span>Next</span>Data Sources</a></nav>
+    <footer class="foot">
+      <p>FFOnto Book, version 2.0.0. Content licensed under CC BY 4.0.
+      <a href="https://github.com/kosala0514/ffonto-book">Edit this book on GitHub</a>.</p>
+    </footer>
+  </main>
+  <aside class="toc" aria-label="On this page"><p class="toc-title">On this page</p><ul><li><a href="#development">Knowledge Acquisition &amp; Conceptualisation</a></li><li><a href="#requirements">Requirements Definition</a></li><li><a href="#implementation">Implementation</a></li><li><a href="#evaluation">Evaluation</a></li><li><a href="#publication">Knowledge Graph Construction</a></li></ul></aside>
+</div>
+<div class="scrim" hidden></div>
+<script src="../../assets/book.js" defer></script>
+</body>
+</html>

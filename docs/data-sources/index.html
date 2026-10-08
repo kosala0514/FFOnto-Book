@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en" data-root="../../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data Sources | FFOnto Book</title>
+<meta name="description" content="A guide to FFOnto, the Forest Fire Ontology: development lifecycle, data sources, querying with SPARQL and the FFOnto-Bot assistant.">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;0,7..72,700;1,7..72,400&family=Public+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="../../assets/book.css">
+<script>
+  try { var t = localStorage.getItem("ffo-theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
+</head>
+<body class="page-chapter">
+<a class="skip" href="#main">Skip to content</a>
+<div class="progress" aria-hidden="true"><div class="progress-ramp" style="background:linear-gradient(90deg, #3b8b3e 0% 20%, #1d4f91 20% 40%, #e3b21b 40% 60%, #e0761b 60% 80%, #b9311f 80% 100%)"></div><div class="progress-cover" data-chapter="2" data-chapters="6" style="left:33.333%"></div></div>
+<header class="topbar">
+  <button class="menu-btn" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open chapters">
+    <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+  </button>
+  <a class="brand" href="../../"><span class="ramp ramp-mini" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></span>FFOnto Book</a>
+  <div class="search">
+    <label class="sr-only" for="search-input">Search the book</label>
+    <input id="search-input" type="search" placeholder="Search the book" autocomplete="off">
+    <div class="search-results" id="search-results" role="listbox" hidden></div>
+  </div>
+  <nav class="toplinks" aria-label="External">
+    <a href="https://kosala0514.github.io/ffonto_html/">Ontology docs</a>
+    <a href="https://github.com/kosala0514/ffonto-book">GitHub</a>
+  </nav>
+  <button class="theme-btn" type="button" aria-label="Switch between light and dark theme">
+    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z" fill="currentColor"/></svg>
+  </button>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar" aria-label="Chapters">
+    <nav><ol class="chapters"><li class="chapter-item"><a class="chapter-link" href="../../docs/introduction/"><span class="num">1</span>Introduction</a><ul class="sections"><li><a href="../../docs/introduction/#what-is-ffonto">What is FFOnto?</a></li><li><a href="../../docs/introduction/#ffonto-resources">Resources</a></li><li><a href="../../docs/introduction/#ffonto-at-a-glance">At a Glance</a></li><li><a href="../../docs/introduction/#ffonto-lifecycle">Lifecycle</a></li></ul></li><li class="chapter-item"><a class="chapter-link" href="../../docs/development-lifecycle/"><span class="num">2</span>Development Lifecycle</a><ul class="sections"><li><a href="../../docs/development-lifecycle/#development">Knowledge Acquisition &amp; Conceptualisation</a></li><li><a href="../../docs/development-lifecycle/#requirements">Requirements Definition</a></li><li><a href="../../docs/development-lifecycle/#implementation">Implementation</a></li><li><a href="../../docs/development-lifecycle/#evaluation">Evaluation</a></li><li><a href="../../docs/development-lifecycle/#publication">Knowledge Graph Construction</a></li></ul></li><li class="chapter-item is-current"><a class="chapter-link" href="../../docs/data-sources/" aria-current="page"><span class="num">3</span>Data Sources</a><ul class="sections"><li><a href="../../docs/data-sources/#weather-data">Weather Data</a></li><li><a href="../../docs/data-sources/#image-data">Image Data</a></li><li><a href="../../docs/data-sources/#audio-data">Audio Data</a></li></ul></li><li class="chapter-item"><a class="chapter-link" href="../../docs/ffonto-bot/"><span class="num">4</span>FFOnto-Bot</a><ul class="sections"><li><a href="../../docs/ffonto-bot/#github">GitHub</a></li><li><a href="../../docs/ffonto-bot/#how-to-use">How to Use</a></li><li><a href="../../docs/ffonto-bot/#capabilities">Capabilities</a></li><li><a href="../../docs/ffonto-bot/#intended-users">Intended Users</a></li></ul></li><li class="chapter-item"><a class="chapter-link" href="../../docs/using-ffonto/"><span class="num">5</span>Using FFOnto</a><ul class="sections"><li><a href="../../docs/using-ffonto/#how-to-query">How to Query FFOnto</a></li><li><a href="../../docs/using-ffonto/#sparql-examples">SPARQL Examples</a></li></ul></li><li class="chapter-item"><a class="chapter-link" href="../../docs/additional-information/"><span class="num">6</span>Additional Information</a><ul class="sections"><li><a href="../../docs/additional-information/#applications">Applications &amp; Use Cases</a></li><li><a href="../../docs/additional-information/#limitations">Limitations &amp; Future Work</a></li><li><a href="../../docs/additional-information/#acknowledgements">Acknowledgements</a></li><li><a href="../../docs/additional-information/#citation">Cite FFOnto</a></li></ul></li></ol></nav>
+  </aside>
+  <main id="main" class="content">
+    <article class="chapter"><p class="chapter-no">Chapter 3</p><h1>Data Sources</h1><p class="lede">FFOnto integrates three modalities. This chapter describes where each comes from, what a raw record
+looks like, and how its fields become ontology terms.</p>
+<p>All three are lifted the same way. A normaliser cleans the raw record, the
+<a href="https://kosala0514.github.io/ffonto_html/resources/ffonto.context.jsonld">JSON-LD context</a> maps each field to an ontology
+term, and records that share an <code>event_id</code> are linked to the same <code>ffo:FireEvent</code>. That shared
+event is what makes cross-modal questions possible, such as whether the audio and the image of one incident agree.</p>
+
+<h2 id="weather-data">Weather Data</h2>
+<p>Weather records are rows of a table that combines daily weather observations with the components of the Canadian
+Fire Weather Index (FWI) system. Two public datasets provide the rows:</p>
+<ul>
+  <li><b>Forest Fires (Montesinho natural park, Portugal).</b> 517 records with a 9 × 9 spatial grid position,
+  month and weekday, weather values, FWI components and the burned area (Cortez and Morais, 2007). The records
+  carry no year or day of month, so they enter the graph without an observation date.</li>
+  <li><b>Algerian Forest Fires (Bejaia and Sidi Bel-Abbès regions).</b> Daily records from June to September 2012
+  with full dates, weather values, all six FWI components and a fire / no-fire class.</li>
+</ul>
+<p>Both are harmonised into one schema:</p>
+<div class="code"><div class="code-head"><span>CSV</span><button type="button" class="copy">Copy</button></div><pre><code class="language-text">modality,site,grid_x,grid_y,country,day_name,day_of_month,month_num,year,temp_c,rh_pct,wind_kmh,rain_mm,FFMC,DMC,DC,ISI,BUI,FWI,fire_occured,area_ha,event_id
+Tabular,demo_site_A,2,2,,tue,28,8,2012,17.4,43,6.7,0,94.8,108.3,647.1,17.0,150.4,33.1,1,1.07,ev_demo_081</code></pre></div>
+<table>
+  <thead><tr><th>Column</th><th>Ontology term</th><th>Meaning</th></tr></thead>
+  <tbody>
+    <tr><td><code>site</code>, <code>grid_x</code>, <code>grid_y</code></td><td><code>ffo:atSite</code> → <code>ffo:Site</code></td><td>One site per grid cell</td></tr>
+    <tr><td><code>year</code>, <code>month_num</code>, <code>day_of_month</code></td><td><code>ffo:observationDate</code></td><td>Only built when all three are present</td></tr>
+    <tr><td><code>temp_c</code>, <code>rh_pct</code>, <code>wind_kmh</code>, <code>rain_mm</code></td><td><code>ffo:airTemperatureC</code>, <code>ffo:relativeHumidityPct</code>, <code>ffo:windSpeedKmh</code>, <code>ffo:rainMm</code></td><td>Daily weather</td></tr>
+    <tr><td><code>FFMC</code>, <code>DMC</code>, <code>DC</code>, <code>ISI</code>, <code>BUI</code>, <code>FWI</code></td><td><code>ffo:ffmc</code> … <code>ffo:fwi</code></td><td>FWI system components</td></tr>
+    <tr><td><code>fire_occured</code>, <code>area_ha</code></td><td><code>ffo:fireOccurred</code>, <code>ffo:burnedAreaHa</code></td><td>Outcome</td></tr>
+    <tr><td><code>event_id</code></td><td><code>ffo:aboutEvent</code></td><td>Links the row to a fire event</td></tr>
+  </tbody>
+</table>
+<p>Two rules work on weather records. R04 compares each value with the <a href="https://kosala0514.github.io/ffonto_html/rules/">danger
+rules</a> and derives conditions such as <i>rapid fine-fuel spread</i>. R08 links each record to the previous record
+at the same site, so the FWI trend can be queried.</p>
+
+<h2 id="image-data">Image Data</h2>
+<p>Images are drone and camera frames from the ForestFire-VQA dataset. Each image has a JSON record produced by the
+image pipeline:</p>
+<ul>
+  <li>a caption from an image-captioning model (BLIP, large);</li>
+  <li>zero-shot scores for <i>smoke</i>, <i>fire</i> and <i>no fire</i> from CLIP ViT-L/14;</li>
+  <li>the decision thresholds in use;</li>
+  <li>file provenance and a SHA-256 checksum.</li>
+</ul>
+<div class="code"><div class="code-head"><span>JSON</span><button type="button" class="copy">Copy</button></div><pre><code class="language-json">{
+  <span class="tk-key">&quot;record_uuid&quot;</span>: <span class="tk-str">&quot;3f6d562f-33d3-49ee-a40b-3a8b6cf07823&quot;</span>,
+  <span class="tk-key">&quot;modality&quot;</span>: <span class="tk-str">&quot;Image&quot;</span>,
+  <span class="tk-key">&quot;image_id&quot;</span>: <span class="tk-str">&quot;evoDJI_0001_frame12_100788&quot;</span>,
+  <span class="tk-key">&quot;event_id&quot;</span>: <span class="tk-str">&quot;ev_bf59c56acb36&quot;</span>,
+  <span class="tk-key">&quot;capture_time_utc&quot;</span>: <span class="tk-kw">null</span>,
+  <span class="tk-key">&quot;labels&quot;</span>: [
+    {<span class="tk-key">&quot;type&quot;</span>: <span class="tk-str">&quot;fire&quot;</span>,  <span class="tk-key">&quot;confidence&quot;</span>: <span class="tk-num">0.1585</span>, <span class="tk-key">&quot;label_source&quot;</span>: <span class="tk-str">&quot;caption&quot;</span>,
+     <span class="tk-key">&quot;model_name&quot;</span>: <span class="tk-str">&quot;openai/clip-vit-large-patch14&quot;</span>,
+     <span class="tk-key">&quot;thresholds&quot;</span>: {<span class="tk-key">&quot;fire_threshold&quot;</span>: <span class="tk-num">0.55</span>, <span class="tk-key">&quot;smoke_threshold&quot;</span>: <span class="tk-num">0.6</span>}},
+    {<span class="tk-key">&quot;type&quot;</span>: <span class="tk-str">&quot;smoke&quot;</span>, <span class="tk-key">&quot;confidence&quot;</span>: <span class="tk-num">0.7291</span>, <span class="tk-key">&quot;label_source&quot;</span>: <span class="tk-str">&quot;zshot&quot;</span>,
+     <span class="tk-key">&quot;model_name&quot;</span>: <span class="tk-str">&quot;openai/clip-vit-large-patch14&quot;</span>}
+  ],
+  <span class="tk-key">&quot;provenance&quot;</span>: {
+    <span class="tk-key">&quot;uri&quot;</span>: <span class="tk-str">&quot;evoDJI_0001_frame12.jpg&quot;</span>,
+    <span class="tk-key">&quot;checksum_sha256&quot;</span>: <span class="tk-str">&quot;df5124eb…&quot;</span>,
+    <span class="tk-key">&quot;caption_model&quot;</span>: <span class="tk-str">&quot;Salesforce/blip-image-captioning-large&quot;</span>,
+    <span class="tk-key">&quot;caption_text&quot;</span>: <span class="tk-str">&quot;arafed forest fire in the middle of a forest with a lake&quot;</span>
+  },
+  <span class="tk-key">&quot;license&quot;</span>: <span class="tk-str">&quot;CC-BY-4.0&quot;</span>,
+  <span class="tk-key">&quot;image_size_px&quot;</span>: {<span class="tk-key">&quot;width&quot;</span>: <span class="tk-num">2048</span>, <span class="tk-key">&quot;height&quot;</span>: <span class="tk-num">1080</span>}
+}</code></pre></div>
+<table>
+  <thead><tr><th>Field</th><th>Becomes</th></tr></thead>
+  <tbody>
+    <tr><td>the record itself</td><td><code>ffo:ImageRecord</code></td></tr>
+    <tr><td>each entry of <code>labels</code></td><td>an <code>ffo:ModelObservation</code> with <code>ffo:predictedClass</code>, <code>ffo:confidence</code> and <code>prov:wasAttributedTo</code> the model</td></tr>
+    <tr><td><code>thresholds</code></td><td><code>ffo:Threshold</code> individuals, linked with <code>ffo:usedThreshold</code></td></tr>
+    <tr><td><code>caption_text</code></td><td>an <code>ffo:Caption</code>; rule R03 tags the concepts it mentions</td></tr>
+    <tr><td><code>checksum_sha256</code>, <code>uri</code>, <code>license</code>, size</td><td>record metadata (<code>ffo:checksumSHA256</code>, <code>ffo:fileURI</code>, <code>dcterms:license</code>, <code>ffo:widthPx</code>)</td></tr>
+  </tbody>
+</table>
+<p>In this example, the smoke score (0.73) is above its threshold (0.60) and the fire score (0.16) is below its
+threshold (0.55), so rule R02 derives <i>smoke</i> as the detected class. The caption still says "forest fire", and
+rule R05 records that disagreement as an <code>ffo:ModalityConflict</code>.</p>
+<p>Questions about what is <i>in</i> a picture (people, PPE, vehicles, vegetation, damage) need more than scores.
+A vision-language model reads each image and writes a <b>scene description</b>: a list of entities with their kind,
+state, activity, worn equipment and spatial relations, restricted to concepts from the vocabulary. The lifter turns it
+into an <code>ffo:SceneDescription</code> that <code>ffo:depicts</code> a set of <code>ffo:SceneEntity</code> nodes.</p>
+
+<h2 id="audio-data">Audio Data</h2>
+<p>Audio clips are recorded at or near the fire. Each clip is classified with YAMNet, a sound-event model with 521
+classes. YAMNet scores the clip in frames of 0.48 seconds, and the pipeline keeps the labels that reach a frame
+threshold of 0.2 and maps them to fire-relevant sound events:</p>
+<div class="code"><div class="code-head"><span>JSON</span><button type="button" class="copy">Copy</button></div><pre><code class="language-json">{
+  <span class="tk-key">&quot;record_uuid&quot;</span>: <span class="tk-str">&quot;7cd6773c-c37e-4acc-a594-20a8d0a5c74a&quot;</span>,
+  <span class="tk-key">&quot;modality&quot;</span>: <span class="tk-str">&quot;Audio&quot;</span>,
+  <span class="tk-key">&quot;audio_file&quot;</span>: <span class="tk-str">&quot;videoplayback_14.wav&quot;</span>,
+  <span class="tk-key">&quot;event_id&quot;</span>: <span class="tk-str">&quot;ev_22e029d3b190&quot;</span>,
+  <span class="tk-key">&quot;duration_ms&quot;</span>: <span class="tk-num">480.0</span>,
+  <span class="tk-key">&quot;labels&quot;</span>: [
+    {<span class="tk-key">&quot;type&quot;</span>: <span class="tk-str">&quot;fire_audio&quot;</span>, <span class="tk-key">&quot;raw_label&quot;</span>: <span class="tk-str">&quot;explosion&quot;</span>,
+     <span class="tk-key">&quot;mean_confidence&quot;</span>: <span class="tk-num">0.7337</span>, <span class="tk-key">&quot;max_confidence&quot;</span>: <span class="tk-num">0.7337</span>,
+     <span class="tk-key">&quot;topk_frame_labels&quot;</span>: [<span class="tk-str">&quot;explosion&quot;</span>], <span class="tk-key">&quot;thresholds&quot;</span>: {<span class="tk-key">&quot;frame_thresh&quot;</span>: <span class="tk-num">0.2</span>}}
+  ],
+  <span class="tk-key">&quot;provenance&quot;</span>: {<span class="tk-key">&quot;model&quot;</span>: <span class="tk-str">&quot;https://tfhub.dev/google/yamnet/1&quot;</span>,
+                 <span class="tk-key">&quot;frame_stride_s&quot;</span>: <span class="tk-num">0.48</span>, <span class="tk-key">&quot;thresh&quot;</span>: <span class="tk-num">0.2</span>, <span class="tk-key">&quot;topk&quot;</span>: <span class="tk-num">8</span>}
+}</code></pre></div>
+<table>
+  <thead><tr><th>Field</th><th>Becomes</th></tr></thead>
+  <tbody>
+    <tr><td>the record itself</td><td><code>ffo:AudioRecord</code> with <code>ffo:durationMs</code></td></tr>
+    <tr><td><code>raw_label</code></td><td><code>ffo:predictedClass</code> pointing to a sound-event concept, for example <code>ffv:Explosion</code></td></tr>
+    <tr><td><code>mean_confidence</code>, <code>max_confidence</code></td><td><code>ffo:meanConfidence</code>, <code>ffo:maxConfidence</code></td></tr>
+    <tr><td><code>model</code>, <code>frame_stride_s</code>, <code>topk</code></td><td>model provenance (<code>ffo:modelURL</code>, <code>ffo:frameStrideS</code>, <code>ffo:topK</code>)</td></tr>
+  </tbody>
+</table>
+<p>Audio matters most in combination. When an explosion is detected above its threshold, rule R07 derives an
+explosion hazard for the event. Independently, rule R06 derives the same hazard type when a propane tank is seen near
+the fire in an image of that event. Both hazards share the hazard type <code>ffv:ExplosionHazard</code>, and the vocabulary supplies
+its recommended actions: cool and isolate the pressurised tank, and withdraw to a safety zone.</p>
+
+<h3 id="data-references">References</h3>
+<ul class="refs">
+  <li>Cortez, P. and Morais, A. (2007). A data mining approach to predict forest fires using meteorological data.
+  <i>Proceedings of the 13th Portuguese Conference on Artificial Intelligence (EPIA 2007)</i>. UCI Machine Learning Repository: Forest Fires.</li>
+  <li>Algerian Forest Fires dataset. UCI Machine Learning Repository.</li>
+  <li>Van Wagner, C. E. (1987). <i>Development and Structure of the Canadian Forest Fire Weather Index System</i>.
+  Canadian Forestry Service, Forestry Technical Report 35.</li>
+  <li>Radford, A. et al. (2021). Learning transferable visual models from natural language supervision (CLIP). <i>ICML</i>.</li>
+  <li>Li, J. et al. (2022). BLIP: Bootstrapping language-image pre-training for unified vision-language understanding and generation. <i>ICML</i>.</li>
+  <li>YAMNet sound-event classifier, trained on AudioSet. TensorFlow Hub: <a href="https://tfhub.dev/google/yamnet/1">tfhub.dev/google/yamnet/1</a>.</li>
+</ul>
+</article>
+    <nav class="pager" aria-label="Chapters"><a class="prev" href="../../docs/development-lifecycle/"><span>Previous</span>Development Lifecycle</a><a class="next" href="../../docs/ffonto-bot/"><span>Next</span>FFOnto-Bot</a></nav>
+    <footer class="foot">
+      <p>FFOnto Book, version 2.0.0. Content licensed under CC BY 4.0.
+      <a href="https://github.com/kosala0514/ffonto-book">Edit this book on GitHub</a>.</p>
+    </footer>
+  </main>
+  <aside class="toc" aria-label="On this page"><p class="toc-title">On this page</p><ul><li><a href="#weather-data">Weather Data</a></li><li><a href="#image-data">Image Data</a></li><li><a href="#audio-data">Audio Data</a></li></ul></aside>
+</div>
+<div class="scrim" hidden></div>
+<script src="../../assets/book.js" defer></script>
+</body>
+</html>

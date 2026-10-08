@@ -1,0 +1,113 @@
+<p class="lede">FFOnto data is queried with SPARQL. This chapter shows where to send queries and gives tested
+examples you can adapt.</p>
+
+<h2 id="how-to-query">How to Query FFOnto</h2>
+<p>A query needs the ontology, the vocabulary and the data in one place. There are three common ways to get that.</p>
+<h3 id="query-graphdb">In GraphDB</h3>
+<p>Load the repository with the provided loader, then open the GraphDB Workbench at
+<code>http://localhost:7200</code>, choose the <code>ffonto</code> repository and use the SPARQL editor. Each source
+is in its own named graph, so you can query everything or restrict a query to one modality:</p>
+<pre><code class="language-sparql">SELECT ?g (COUNT(*) AS ?triples)
+WHERE { GRAPH ?g { ?s ?p ?o } }
+GROUP BY ?g
+ORDER BY ?g
+# <http://purl.org/ffonto/graph/image>, …/audio, …/weather, …/scene, …/inferred, …/ontology, …/vocab</code></pre>
+<p>Programs can use the same repository as a SPARQL endpoint:</p>
+<pre><code class="language-shell">curl -s http://localhost:7200/repositories/ffonto \
+  -H "Accept: text/csv" \
+  --data-urlencode "query=PREFIX ffo: <http://purl.org/ffonto#> SELECT (COUNT(?r) AS ?records) WHERE { ?r a ffo:DataRecord }"</code></pre>
+<h3 id="query-python">In Python</h3>
+<p>For small graphs, rdflib is enough. Load the ontology modules and the lifted data, then query:</p>
+<pre><code class="language-python">from rdflib import Graph
+
+g = Graph()
+for f in ["ontology/ffonto-core.ttl", "ontology/ffonto-vocab.ttl",
+          "ontology/danger-rules.ttl", "data/kg_inferred.ttl"]:
+    g.parse(f, format="turtle")
+
+for row in g.query(open("queries/CQ05.rq").read()):
+    print(row.record, row["class"], row.confidence, row.threshold)</code></pre>
+<p><code>data/kg_inferred.ttl</code> already contains the facts derived by the rules. If you load the raw
+<code>data/kg.ttl</code> instead, run <code>python scripts/run_cqs.py</code> first, which applies the rules.</p>
+<h3 id="query-tips">Things to know</h3>
+<ul>
+  <li><b>Kinds are concepts.</b> Ask for <code>?e ffo:hasKind ffv:Firefighter</code>, not for a class
+  <code>ffo:Firefighter</code>. To include narrower kinds, follow the hierarchy:
+  <code>?e ffo:hasKind/skos:broader* ffv:Person</code>.</li>
+  <li><b>Scores are observations.</b> A confidence belongs to an <code>ffo:ModelObservation</code> attached to the
+  record with <code>ffo:hasObservation</code>, never to the record directly.</li>
+  <li><b>Use labels for display.</b> Every concept has an English <code>skos:prefLabel</code>.</li>
+  <li><b>Derived facts live in the inferred graph.</b> <code>ffo:detectedClass</code>, <code>ffo:hasCondition</code>,
+  <code>ffo:ModalityConflict</code> and <code>ffo:Hazard</code> exist only after the rules have run.</li>
+</ul>
+
+<h2 id="sparql-examples">SPARQL Examples</h2>
+<p>Each example is one of the tested competency-question queries, shortened to its core. The prefixes are the same
+in every example:</p>
+<pre><code class="language-sparql">PREFIX ffo:  <http://purl.org/ffonto#>
+PREFIX ffv:  <http://purl.org/ffonto/vocab#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX sosa: <http://www.w3.org/ns/sosa/>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#></code></pre>
+
+<h3 id="ex-threshold">Is each score above its threshold? (CQ05)</h3>
+<pre><code class="language-sparql">SELECT ?record ?class ?confidence ?threshold ?aboveThreshold
+WHERE {
+  ?record ffo:hasObservation ?o .
+  ?o ffo:predictedClass ?class ;
+     ffo:confidence ?confidence ;
+     ffo:usedThreshold/ffo:thresholdValue ?threshold .
+  OPTIONAL { ?o ffo:aboveThreshold ?aboveThreshold }
+}
+ORDER BY ?record ?class</code></pre>
+<p>On the example image from <a href="/docs/data-sources#image-data">Data Sources</a>, this returns <i>fire 0.16,
+threshold 0.55, false</i> and <i>smoke 0.73, threshold 0.60, true</i>.</p>
+
+<h3 id="ex-ppe">Which required PPE is missing? (CQ17)</h3>
+<pre><code class="language-sparql">SELECT ?person ?kind ?missing
+WHERE {
+  ?sd ffo:describesRecord ?record ; ffo:depicts ?person .
+  ?person ffo:hasKind ?k .
+  ?k skos:broader* ffv:Person ; skos:prefLabel ?kind .
+  ?k ffo:requiredPPE ?req .
+  FILTER NOT EXISTS { ?person ffo:wears ?req }
+  ?req skos:prefLabel ?missing .
+}</code></pre>
+<p>The required equipment is background knowledge in the vocabulary (for example, a firefighter requires a helmet,
+fire-resistant clothing, gloves and eye protection). The query compares it with what the vision model saw.</p>
+
+<h3 id="ex-fwi">How is the FWI trending at a site? (CQ09)</h3>
+<pre><code class="language-sparql">SELECT ?site ?date ?FWI ?previousFWI ?fwiTrend
+WHERE {
+  ?w a ffo:WeatherRecord ;
+     ffo:atSite/ffo:siteName ?site ;
+     ffo:observationDate ?date ;
+     ffo:fwi ?FWI .
+  OPTIONAL { ?w ffo:previousRecord/ffo:fwi ?previousFWI }     # link derived by rule R08
+  BIND(IF(!BOUND(?previousFWI), "n/a",
+       IF(?FWI > ?previousFWI, "increasing",
+       IF(?FWI < ?previousFWI, "decreasing", "stable"))) AS ?fwiTrend)
+}
+ORDER BY ?site ?date</code></pre>
+
+<h3 id="ex-hazards">Which hazards exist, and what should be done? (CQ24 and CQ25)</h3>
+<pre><code class="language-sparql">SELECT ?eventCode ?hazardType ?reason ?action
+WHERE {
+  ?h a ffo:Hazard ; ffo:hasHazardType ?ht .
+  ?ht skos:prefLabel ?hazardType .
+  OPTIONAL { ?h ffo:inEvent/ffo:eventCode ?eventCode }
+  OPTIONAL { ?h rdfs:comment ?reason }
+  OPTIONAL { ?ht ffo:mitigatedBy/skos:prefLabel ?action }
+}
+ORDER BY ?eventCode ?hazardType</code></pre>
+
+<h3 id="ex-vocab">Browse the vocabulary: every kind of hand tool</h3>
+<pre><code class="language-sparql">SELECT ?tool ?label
+WHERE {
+  ?tool skos:broader+ ffv:HandTool ;
+        skos:prefLabel ?label .
+}
+ORDER BY ?label</code></pre>
+<p>All 27 competency-question queries are in the <code>queries/</code> folder of the
+<a href="{{bot_repo_url}}">repository</a>, each with the ForestFire-VQA questions it answers.</p>

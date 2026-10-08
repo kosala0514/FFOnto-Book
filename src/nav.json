@@ -1,0 +1,30 @@
+[
+  {"title": "Introduction", "href": "/docs/introduction", "items": [
+    {"label": "What is FFOnto?", "href": "/docs/introduction#what-is-ffonto"},
+    {"label": "Resources", "href": "/docs/introduction#ffonto-resources"},
+    {"label": "At a Glance", "href": "/docs/introduction#ffonto-at-a-glance"},
+    {"label": "Lifecycle", "href": "/docs/introduction#ffonto-lifecycle"}]},
+  {"title": "Development Lifecycle", "href": "/docs/development-lifecycle", "items": [
+    {"label": "Knowledge Acquisition & Conceptualisation", "href": "/docs/development-lifecycle#development"},
+    {"label": "Requirements Definition", "href": "/docs/development-lifecycle#requirements"},
+    {"label": "Implementation", "href": "/docs/development-lifecycle#implementation"},
+    {"label": "Evaluation", "href": "/docs/development-lifecycle#evaluation"},
+    {"label": "Knowledge Graph Construction", "href": "/docs/development-lifecycle#publication"}]},
+  {"title": "Data Sources", "href": "/docs/data-sources", "items": [
+    {"label": "Weather Data", "href": "/docs/data-sources#weather-data"},
+    {"label": "Image Data", "href": "/docs/data-sources#image-data"},
+    {"label": "Audio Data", "href": "/docs/data-sources#audio-data"}]},
+  {"title": "FFOnto-Bot", "href": "/docs/ffonto-bot", "items": [
+    {"label": "GitHub", "href": "/docs/ffonto-bot#github"},
+    {"label": "How to Use", "href": "/docs/ffonto-bot#how-to-use"},
+    {"label": "Capabilities", "href": "/docs/ffonto-bot#capabilities"},
+    {"label": "Intended Users", "href": "/docs/ffonto-bot#intended-users"}]},
+  {"title": "Using FFOnto", "href": "/docs/using-ffonto", "items": [
+    {"label": "How to Query FFOnto", "href": "/docs/using-ffonto#how-to-query"},
+    {"label": "SPARQL Examples", "href": "/docs/using-ffonto#sparql-examples"}]},
+  {"title": "Additional Information", "href": "/docs/additional-information", "items": [
+    {"label": "Applications & Use Cases", "href": "/docs/additional-information#applications"},
+    {"label": "Limitations & Future Work", "href": "/docs/additional-information#limitations"},
+    {"label": "Acknowledgements", "href": "/docs/additional-information#acknowledgements"},
+    {"label": "Cite FFOnto", "href": "/docs/additional-information#citation"}]}
+]

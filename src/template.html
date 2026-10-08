@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en" data-root="{{root}}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{page_title}}</title>
+<meta name="description" content="{{description}}">
+<link rel="icon" href="{{root}}assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;0,7..72,700;1,7..72,400&family=Public+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="{{root}}assets/book.css">
+<script>
+  try { var t = localStorage.getItem("ffo-theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
+</head>
+<body class="{{body_class}}">
+<a class="skip" href="#main">Skip to content</a>
+<div class="progress" aria-hidden="true">{{PROGRESS}}</div>
+<header class="topbar">
+  <button class="menu-btn" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open chapters">
+    <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+  </button>
+  <a class="brand" href="{{root}}"><span class="ramp ramp-mini" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></span>FFOnto Book</a>
+  <div class="search">
+    <label class="sr-only" for="search-input">Search the book</label>
+    <input id="search-input" type="search" placeholder="Search the book" autocomplete="off">
+    <div class="search-results" id="search-results" role="listbox" hidden></div>
+  </div>
+  <nav class="toplinks" aria-label="External">
+    <a href="{{ontology_docs_url}}">Ontology docs</a>
+    <a href="{{book_repo_url}}">GitHub</a>
+  </nav>
+  <button class="theme-btn" type="button" aria-label="Switch between light and dark theme">
+    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z" fill="currentColor"/></svg>
+  </button>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar" aria-label="Chapters">
+    <nav>{{SIDEBAR}}</nav>
+  </aside>
+  <main id="main" class="content">
+    {{BODY}}
+    {{PAGER}}
+    <footer class="foot">
+      <p>FFOnto Book, version {{version}}. Content licensed under CC BY 4.0.
+      <a href="{{book_repo_url}}">Edit this book on GitHub</a>.</p>
+    </footer>
+  </main>
+  <aside class="toc" aria-label="On this page">{{TOC}}</aside>
+</div>
+<div class="scrim" hidden></div>
+<script src="{{root}}assets/book.js" defer></script>
+</body>
+</html>

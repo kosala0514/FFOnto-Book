@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en" data-root="../../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Using FFOnto | FFOnto Book</title>
+<meta name="description" content="A guide to FFOnto, the Forest Fire Ontology: development lifecycle, data sources, querying with SPARQL and the FFOnto-Bot assistant.">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;0,7..72,700;1,7..72,400&family=Public+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="../../assets/book.css">
+<script>
+  try { var t = localStorage.getItem("ffo-theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
+</head>
+<body class="page-chapter">
+<a class="skip" href="#main">Skip to content</a>
+<div class="progress" aria-hidden="true"><div class="progress-ramp" style="background:linear-gradient(90deg, #3b8b3e 0% 20%, #1d4f91 20% 40%, #e3b21b 40% 60%, #e0761b 60% 80%, #b9311f 80% 100%)"></div><div class="progress-cover" data-chapter="4" data-chapters="6" style="left:66.667%"></div></div>
+<header class="topbar">
+  <button class="menu-btn" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open chapters">
+    <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+  </button>
+  <a class="brand" href="../../"><span class="ramp ramp-mini" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></span>FFOnto Book</a>
+  <div class="search">
+    <label class="sr-only" for="search-input">Search the book</label>
+    <input id="search-input" type="search" placeholder="Search the book" autocomplete="off">
+    <div class="search-results" id="search-results" role="listbox" hidden></div>
+  </div>
+  <nav class="toplinks" aria-label="External">
+    <a href="https://kosala0514.github.io/ffonto_html/">Ontology docs</a>
+    <a href="https://github.com/kosala0514/ffonto-book">GitHub</a>
+  </nav>
+  <button class="theme-btn" type="button" aria-label="Switch between light and dark theme">
+    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z" fill="currentColor"/></svg>
+  </button>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar" aria-label="Chapters">
+    <nav><ol class="chapters"><li class="chapter-item"><a class="chapter-link" href="../../docs/introduction/"><span class="num">1</span>Introduction</a><ul class="sections"><li><a href="../../docs/introduction/#what-is-ffonto">What is FFOnto?</a></li><li><a href="../../docs/introduction/#ffonto-resources">Resources</a></li><li><a href="../../docs/introduction/#ffonto-at-a-glance">At a Glance</a></li><li><a href="../../docs/introduction/#ffonto-lifecycle">Lifecycle</a></li></ul></li><li class="chapter-item"><a class="chapter-link" href="../../docs/development-lifecycle/"><span class="num">2</span>Development Lifecycle</a><ul class="sections"><li><a href="../../docs/development-lifecycle/#development">Knowledge Acquisition &amp; Conceptualisation</a></li><li><a href="../../docs/development-lifecycle/#requirements">Requirements Definition</a></li><li><a href="../../docs/development-lifecycle/#implementation">Implementation</a></li><li><a href="../../docs/development-lifecycle/#evaluation">Evaluation</a></li><li><a href="../../docs/development-lifecycle/#publication">Knowledge Graph Construction</a></li></ul></li><li class="chapter-item"><a class="chapter-link" href="../../docs/data-sources/"><span class="num">3</span>Data Sources</a><ul class="sections"><li><a href="../../docs/data-sources/#weather-data">Weather Data</a></li><li><a href="../../docs/data-sources/#image-data">Image Data</a></li><li><a href="../../docs/data-sources/#audio-data">Audio Data</a></li></ul></li><li class="chapter-item"><a class="chapter-link" href="../../docs/ffonto-bot/"><span class="num">4</span>FFOnto-Bot</a><ul class="sections"><li><a href="../../docs/ffonto-bot/#github">GitHub</a></li><li><a href="../../docs/ffonto-bot/#how-to-use">How to Use</a></li><li><a href="../../docs/ffonto-bot/#capabilities">Capabilities</a></li><li><a href="../../docs/ffonto-bot/#intended-users">Intended Users</a></li></ul></li><li class="chapter-item is-current"><a class="chapter-link" href="../../docs/using-ffonto/" aria-current="page"><span class="num">5</span>Using FFOnto</a><ul class="sections"><li><a href="../../docs/using-ffonto/#how-to-query">How to Query FFOnto</a></li><li><a href="../../docs/using-ffonto/#sparql-examples">SPARQL Examples</a></li></ul></li><li class="chapter-item"><a class="chapter-link" href="../../docs/additional-information/"><span class="num">6</span>Additional Information</a><ul class="sections"><li><a href="../../docs/additional-information/#applications">Applications &amp; Use Cases</a></li><li><a href="../../docs/additional-information/#limitations">Limitations &amp; Future Work</a></li><li><a href="../../docs/additional-information/#acknowledgements">Acknowledgements</a></li><li><a href="../../docs/additional-information/#citation">Cite FFOnto</a></li></ul></li></ol></nav>
+  </aside>
+  <main id="main" class="content">
+    <article class="chapter"><p class="chapter-no">Chapter 5</p><h1>Using FFOnto</h1><p class="lede">FFOnto data is queried with SPARQL. This chapter shows where to send queries and gives tested
+examples you can adapt.</p>
+
+<h2 id="how-to-query">How to Query FFOnto</h2>
+<p>A query needs the ontology, the vocabulary and the data in one place. There are three common ways to get that.</p>
+<h3 id="query-graphdb">In GraphDB</h3>
+<p>Load the repository with the provided loader, then open the GraphDB Workbench at
+<code>http://localhost:7200</code>, choose the <code>ffonto</code> repository and use the SPARQL editor. Each source
+is in its own named graph, so you can query everything or restrict a query to one modality:</p>
+<div class="code"><div class="code-head"><span>SPARQL</span><button type="button" class="copy">Copy</button></div><pre><code class="language-sparql"><span class="tk-kw">SELECT</span> <span class="tk-var">?g</span> (<span class="tk-kw">COUNT</span>(*) <span class="tk-kw">AS</span> <span class="tk-var">?triples</span>)
+<span class="tk-kw">WHERE</span> { <span class="tk-kw">GRAPH</span> <span class="tk-var">?g</span> { <span class="tk-var">?s</span> <span class="tk-var">?p</span> <span class="tk-var">?o</span> } }
+<span class="tk-kw">GROUP</span> <span class="tk-kw">BY</span> <span class="tk-var">?g</span>
+<span class="tk-kw">ORDER</span> <span class="tk-kw">BY</span> <span class="tk-var">?g</span>
+<span class="tk-com"># &lt;http://purl.org/ffonto/graph/image&gt;, …/audio, …/weather, …/scene, …/inferred, …/ontology, …/vocab</span></code></pre></div>
+<p>Programs can use the same repository as a SPARQL endpoint:</p>
+<div class="code"><div class="code-head"><span>Shell</span><button type="button" class="copy">Copy</button></div><pre><code class="language-shell"><span class="tk-kw">curl</span> -s http://localhost:7200/repositories/ffonto \
+  -H <span class="tk-str">&quot;Accept: text/csv&quot;</span> \
+  --data-urlencode <span class="tk-str">&quot;query=PREFIX ffo: &lt;http://purl.org/ffonto#&gt; SELECT (COUNT(?r) AS ?records) WHERE { ?r a ffo:DataRecord }&quot;</span></code></pre></div>
+<h3 id="query-python">In Python</h3>
+<p>For small graphs, rdflib is enough. Load the ontology modules and the lifted data, then query:</p>
+<div class="code"><div class="code-head"><span>Python</span><button type="button" class="copy">Copy</button></div><pre><code class="language-python"><span class="tk-kw">from</span> rdflib <span class="tk-kw">import</span> Graph
+
+g = Graph()
+<span class="tk-kw">for</span> f <span class="tk-kw">in</span> [<span class="tk-str">&quot;ontology/ffonto-core.ttl&quot;</span>, <span class="tk-str">&quot;ontology/ffonto-vocab.ttl&quot;</span>,
+          <span class="tk-str">&quot;ontology/danger-rules.ttl&quot;</span>, <span class="tk-str">&quot;data/kg_inferred.ttl&quot;</span>]:
+    g.parse(f, format=<span class="tk-str">&quot;turtle&quot;</span>)
+
+<span class="tk-kw">for</span> row <span class="tk-kw">in</span> g.query(<span class="tk-kw">open</span>(<span class="tk-str">&quot;queries/CQ05.rq&quot;</span>).read()):
+    <span class="tk-kw">print</span>(row.record, row[<span class="tk-str">&quot;class&quot;</span>], row.confidence, row.threshold)</code></pre></div>
+<p><code>data/kg_inferred.ttl</code> already contains the facts derived by the rules. If you load the raw
+<code>data/kg.ttl</code> instead, run <code>python scripts/run_cqs.py</code> first, which applies the rules.</p>
+<h3 id="query-tips">Things to know</h3>
+<ul>
+  <li><b>Kinds are concepts.</b> Ask for <code>?e ffo:hasKind ffv:Firefighter</code>, not for a class
+  <code>ffo:Firefighter</code>. To include narrower kinds, follow the hierarchy:
+  <code>?e ffo:hasKind/skos:broader* ffv:Person</code>.</li>
+  <li><b>Scores are observations.</b> A confidence belongs to an <code>ffo:ModelObservation</code> attached to the
+  record with <code>ffo:hasObservation</code>, never to the record directly.</li>
+  <li><b>Use labels for display.</b> Every concept has an English <code>skos:prefLabel</code>.</li>
+  <li><b>Derived facts live in the inferred graph.</b> <code>ffo:detectedClass</code>, <code>ffo:hasCondition</code>,
+  <code>ffo:ModalityConflict</code> and <code>ffo:Hazard</code> exist only after the rules have run.</li>
+</ul>
+
+<h2 id="sparql-examples">SPARQL Examples</h2>
+<p>Each example is one of the tested competency-question queries, shortened to its core. The prefixes are the same
+in every example:</p>
+<div class="code"><div class="code-head"><span>SPARQL</span><button type="button" class="copy">Copy</button></div><pre><code class="language-sparql"><span class="tk-kw">PREFIX</span> ffo:  <span class="tk-iri">&lt;http://purl.org/ffonto#&gt;</span>
+<span class="tk-kw">PREFIX</span> ffv:  <span class="tk-iri">&lt;http://purl.org/ffonto/vocab#&gt;</span>
+<span class="tk-kw">PREFIX</span> skos: <span class="tk-iri">&lt;http://www.w3.org/2004/02/skos/core#&gt;</span>
+<span class="tk-kw">PREFIX</span> sosa: <span class="tk-iri">&lt;http://www.w3.org/ns/sosa/&gt;</span>
+<span class="tk-kw">PREFIX</span> prov: <span class="tk-iri">&lt;http://www.w3.org/ns/prov#&gt;</span>
+<span class="tk-kw">PREFIX</span> rdfs: <span class="tk-iri">&lt;http://www.w3.org/2000/01/rdf-schema#&gt;</span></code></pre></div>
+
+<h3 id="ex-threshold">Is each score above its threshold? (CQ05)</h3>
+<div class="code"><div class="code-head"><span>SPARQL</span><button type="button" class="copy">Copy</button></div><pre><code class="language-sparql"><span class="tk-kw">SELECT</span> <span class="tk-var">?record</span> <span class="tk-var">?class</span> <span class="tk-var">?confidence</span> <span class="tk-var">?threshold</span> <span class="tk-var">?aboveThreshold</span>
+<span class="tk-kw">WHERE</span> {
+  <span class="tk-var">?record</span> <span class="tk-pn">ffo:hasObservation</span> <span class="tk-var">?o</span> .
+  <span class="tk-var">?o</span> <span class="tk-pn">ffo:predictedClass</span> <span class="tk-var">?class</span> ;
+     <span class="tk-pn">ffo:confidence</span> <span class="tk-var">?confidence</span> ;
+     <span class="tk-pn">ffo:usedThreshold</span>/<span class="tk-pn">ffo:thresholdValue</span> <span class="tk-var">?threshold</span> .
+  <span class="tk-kw">OPTIONAL</span> { <span class="tk-var">?o</span> <span class="tk-pn">ffo:aboveThreshold</span> <span class="tk-var">?aboveThreshold</span> }
+}
+<span class="tk-kw">ORDER</span> <span class="tk-kw">BY</span> <span class="tk-var">?record</span> <span class="tk-var">?class</span></code></pre></div>
+<p>On the example image from <a href="../../docs/data-sources/#image-data">Data Sources</a>, this returns <i>fire 0.16,
+threshold 0.55, false</i> and <i>smoke 0.73, threshold 0.60, true</i>.</p>
+
+<h3 id="ex-ppe">Which required PPE is missing? (CQ17)</h3>
+<div class="code"><div class="code-head"><span>SPARQL</span><button type="button" class="copy">Copy</button></div><pre><code class="language-sparql"><span class="tk-kw">SELECT</span> <span class="tk-var">?person</span> <span class="tk-var">?kind</span> <span class="tk-var">?missing</span>
+<span class="tk-kw">WHERE</span> {
+  <span class="tk-var">?sd</span> <span class="tk-pn">ffo:describesRecord</span> <span class="tk-var">?record</span> ; <span class="tk-pn">ffo:depicts</span> <span class="tk-var">?person</span> .
+  <span class="tk-var">?person</span> <span class="tk-pn">ffo:hasKind</span> <span class="tk-var">?k</span> .
+  <span class="tk-var">?k</span> <span class="tk-pn">skos:broader</span>* <span class="tk-pn">ffv:Person</span> ; <span class="tk-pn">skos:prefLabel</span> <span class="tk-var">?kind</span> .
+  <span class="tk-var">?k</span> <span class="tk-pn">ffo:requiredPPE</span> <span class="tk-var">?req</span> .
+  <span class="tk-kw">FILTER</span> <span class="tk-kw">NOT</span> <span class="tk-kw">EXISTS</span> { <span class="tk-var">?person</span> <span class="tk-pn">ffo:wears</span> <span class="tk-var">?req</span> }
+  <span class="tk-var">?req</span> <span class="tk-pn">skos:prefLabel</span> <span class="tk-var">?missing</span> .
+}</code></pre></div>
+<p>The required equipment is background knowledge in the vocabulary (for example, a firefighter requires a helmet,
+fire-resistant clothing, gloves and eye protection). The query compares it with what the vision model saw.</p>
+
+<h3 id="ex-fwi">How is the FWI trending at a site? (CQ09)</h3>
+<div class="code"><div class="code-head"><span>SPARQL</span><button type="button" class="copy">Copy</button></div><pre><code class="language-sparql"><span class="tk-kw">SELECT</span> <span class="tk-var">?site</span> <span class="tk-var">?date</span> <span class="tk-var">?FWI</span> <span class="tk-var">?previousFWI</span> <span class="tk-var">?fwiTrend</span>
+<span class="tk-kw">WHERE</span> {
+  <span class="tk-var">?w</span> <span class="tk-pn">a</span> <span class="tk-pn">ffo:WeatherRecord</span> ;
+     <span class="tk-pn">ffo:atSite</span>/<span class="tk-pn">ffo:siteName</span> <span class="tk-var">?site</span> ;
+     <span class="tk-pn">ffo:observationDate</span> <span class="tk-var">?date</span> ;
+     <span class="tk-pn">ffo:fwi</span> <span class="tk-var">?FWI</span> .
+  <span class="tk-kw">OPTIONAL</span> { <span class="tk-var">?w</span> <span class="tk-pn">ffo:previousRecord</span>/<span class="tk-pn">ffo:fwi</span> <span class="tk-var">?previousFWI</span> }     <span class="tk-com"># link derived by rule R08</span>
+  <span class="tk-kw">BIND</span>(<span class="tk-kw">IF</span>(!<span class="tk-kw">BOUND</span>(<span class="tk-var">?previousFWI</span>), <span class="tk-str">&quot;n/a&quot;</span>,
+       <span class="tk-kw">IF</span>(<span class="tk-var">?FWI</span> &gt; <span class="tk-var">?previousFWI</span>, <span class="tk-str">&quot;increasing&quot;</span>,
+       <span class="tk-kw">IF</span>(<span class="tk-var">?FWI</span> &lt; <span class="tk-var">?previousFWI</span>, <span class="tk-str">&quot;decreasing&quot;</span>, <span class="tk-str">&quot;stable&quot;</span>))) <span class="tk-kw">AS</span> <span class="tk-var">?fwiTrend</span>)
+}
+<span class="tk-kw">ORDER</span> <span class="tk-kw">BY</span> <span class="tk-var">?site</span> <span class="tk-var">?date</span></code></pre></div>
+
+<h3 id="ex-hazards">Which hazards exist, and what should be done? (CQ24 and CQ25)</h3>
+<div class="code"><div class="code-head"><span>SPARQL</span><button type="button" class="copy">Copy</button></div><pre><code class="language-sparql"><span class="tk-kw">SELECT</span> <span class="tk-var">?eventCode</span> <span class="tk-var">?hazardType</span> <span class="tk-var">?reason</span> <span class="tk-var">?action</span>
+<span class="tk-kw">WHERE</span> {
+  <span class="tk-var">?h</span> <span class="tk-pn">a</span> <span class="tk-pn">ffo:Hazard</span> ; <span class="tk-pn">ffo:hasHazardType</span> <span class="tk-var">?ht</span> .
+  <span class="tk-var">?ht</span> <span class="tk-pn">skos:prefLabel</span> <span class="tk-var">?hazardType</span> .
+  <span class="tk-kw">OPTIONAL</span> { <span class="tk-var">?h</span> <span class="tk-pn">ffo:inEvent</span>/<span class="tk-pn">ffo:eventCode</span> <span class="tk-var">?eventCode</span> }
+  <span class="tk-kw">OPTIONAL</span> { <span class="tk-var">?h</span> <span class="tk-pn">rdfs:comment</span> <span class="tk-var">?reason</span> }
+  <span class="tk-kw">OPTIONAL</span> { <span class="tk-var">?ht</span> <span class="tk-pn">ffo:mitigatedBy</span>/<span class="tk-pn">skos:prefLabel</span> <span class="tk-var">?action</span> }
+}
+<span class="tk-kw">ORDER</span> <span class="tk-kw">BY</span> <span class="tk-var">?eventCode</span> <span class="tk-var">?hazardType</span></code></pre></div>
+
+<h3 id="ex-vocab">Browse the vocabulary: every kind of hand tool</h3>
+<div class="code"><div class="code-head"><span>SPARQL</span><button type="button" class="copy">Copy</button></div><pre><code class="language-sparql"><span class="tk-kw">SELECT</span> <span class="tk-var">?tool</span> <span class="tk-var">?label</span>
+<span class="tk-kw">WHERE</span> {
+  <span class="tk-var">?tool</span> <span class="tk-pn">skos:broader</span>+ <span class="tk-pn">ffv:HandTool</span> ;
+        <span class="tk-pn">skos:prefLabel</span> <span class="tk-var">?label</span> .
+}
+<span class="tk-kw">ORDER</span> <span class="tk-kw">BY</span> <span class="tk-var">?label</span></code></pre></div>
+<p>All 27 competency-question queries are in the <code>queries/</code> folder of the
+<a href="https://github.com/kosala0514/ffonto-bot">repository</a>, each with the ForestFire-VQA questions it answers.</p>
+</article>
+    <nav class="pager" aria-label="Chapters"><a class="prev" href="../../docs/ffonto-bot/"><span>Previous</span>FFOnto-Bot</a><a class="next" href="../../docs/additional-information/"><span>Next</span>Additional Information</a></nav>
+    <footer class="foot">
+      <p>FFOnto Book, version 2.0.0. Content licensed under CC BY 4.0.
+      <a href="https://github.com/kosala0514/ffonto-book">Edit this book on GitHub</a>.</p>
+    </footer>
+  </main>
+  <aside class="toc" aria-label="On this page"><p class="toc-title">On this page</p><ul><li><a href="#how-to-query">How to Query FFOnto</a></li><li><a href="#sparql-examples">SPARQL Examples</a></li></ul></aside>
+</div>
+<div class="scrim" hidden></div>
+<script src="../../assets/book.js" defer></script>
+</body>
+</html>
