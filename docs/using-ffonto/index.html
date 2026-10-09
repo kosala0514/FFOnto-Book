@@ -57,7 +57,7 @@ is in its own named graph, so you can query everything or restrict a query to on
 <p>Programs can use the same repository as a SPARQL endpoint:</p>
 <div class="code"><div class="code-head"><span>Shell</span><button type="button" class="copy">Copy</button></div><pre><code class="language-shell"><span class="tk-kw">curl</span> -s http://localhost:7200/repositories/ffonto \
   -H <span class="tk-str">&quot;Accept: text/csv&quot;</span> \
-  --data-urlencode <span class="tk-str">&quot;query=PREFIX ffo: &lt;http://purl.org/ffonto#&gt; SELECT (COUNT(?r) AS ?records) WHERE { ?r a ffo:DataRecord }&quot;</span></code></pre></div>
+  --data-urlencode <span class="tk-str">&quot;query=PREFIX ffonto: &lt;http://purl.org/ffonto#&gt; SELECT (COUNT(?r) AS ?records) WHERE { ?r a ffonto:DataRecord }&quot;</span></code></pre></div>
 <h3 id="query-python">In Python</h3>
 <p>For small graphs, rdflib is enough. Load the ontology modules and the lifted data, then query:</p>
 <div class="code"><div class="code-head"><span>Python</span><button type="button" class="copy">Copy</button></div><pre><code class="language-python"><span class="tk-kw">from</span> rdflib <span class="tk-kw">import</span> Graph
@@ -73,21 +73,21 @@ g = Graph()
 <code>data/kg.ttl</code> instead, run <code>python scripts/run_cqs.py</code> first, which applies the rules.</p>
 <h3 id="query-tips">Things to know</h3>
 <ul>
-  <li><b>Kinds are concepts.</b> Ask for <code>?e ffo:hasKind ffv:Firefighter</code>, not for a class
-  <code>ffo:Firefighter</code>. To include narrower kinds, follow the hierarchy:
-  <code>?e ffo:hasKind/skos:broader* ffv:Person</code>.</li>
-  <li><b>Scores are observations.</b> A confidence belongs to an <code>ffo:ModelObservation</code> attached to the
-  record with <code>ffo:hasObservation</code>, never to the record directly.</li>
+  <li><b>Kinds are concepts.</b> Ask for <code>?e ffonto:hasKind ffontov:Firefighter</code>, not for a class
+  <code>ffonto:Firefighter</code>. To include narrower kinds, follow the hierarchy:
+  <code>?e ffonto:hasKind/skos:broader* ffontov:Person</code>.</li>
+  <li><b>Scores are observations.</b> A confidence belongs to an <code>ffonto:ModelObservation</code> attached to the
+  record with <code>ffonto:hasObservation</code>, never to the record directly.</li>
   <li><b>Use labels for display.</b> Every concept has an English <code>skos:prefLabel</code>.</li>
-  <li><b>Derived facts live in the inferred graph.</b> <code>ffo:detectedClass</code>, <code>ffo:hasCondition</code>,
-  <code>ffo:ModalityConflict</code> and <code>ffo:Hazard</code> exist only after the rules have run.</li>
+  <li><b>Derived facts live in the inferred graph.</b> <code>ffonto:detectedClass</code>, <code>ffonto:hasCondition</code>,
+  <code>ffonto:ModalityConflict</code> and <code>ffonto:Hazard</code> exist only after the rules have run.</li>
 </ul>
 
 <h2 id="sparql-examples">SPARQL Examples</h2>
 <p>Each example is one of the tested competency-question queries, shortened to its core. The prefixes are the same
 in every example:</p>
-<div class="code"><div class="code-head"><span>SPARQL</span><button type="button" class="copy">Copy</button></div><pre><code class="language-sparql"><span class="tk-kw">PREFIX</span> ffo:  <span class="tk-iri">&lt;http://purl.org/ffonto#&gt;</span>
-<span class="tk-kw">PREFIX</span> ffv:  <span class="tk-iri">&lt;http://purl.org/ffonto/vocab#&gt;</span>
+<div class="code"><div class="code-head"><span>SPARQL</span><button type="button" class="copy">Copy</button></div><pre><code class="language-sparql"><span class="tk-kw">PREFIX</span> ffonto:  <span class="tk-iri">&lt;http://purl.org/ffonto#&gt;</span>
+<span class="tk-kw">PREFIX</span> ffontov:  <span class="tk-iri">&lt;http://purl.org/ffonto/vocab#&gt;</span>
 <span class="tk-kw">PREFIX</span> skos: <span class="tk-iri">&lt;http://www.w3.org/2004/02/skos/core#&gt;</span>
 <span class="tk-kw">PREFIX</span> sosa: <span class="tk-iri">&lt;http://www.w3.org/ns/sosa/&gt;</span>
 <span class="tk-kw">PREFIX</span> prov: <span class="tk-iri">&lt;http://www.w3.org/ns/prov#&gt;</span>
@@ -96,11 +96,11 @@ in every example:</p>
 <h3 id="ex-threshold">Is each score above its threshold? (CQ05)</h3>
 <div class="code"><div class="code-head"><span>SPARQL</span><button type="button" class="copy">Copy</button></div><pre><code class="language-sparql"><span class="tk-kw">SELECT</span> <span class="tk-var">?record</span> <span class="tk-var">?class</span> <span class="tk-var">?confidence</span> <span class="tk-var">?threshold</span> <span class="tk-var">?aboveThreshold</span>
 <span class="tk-kw">WHERE</span> {
-  <span class="tk-var">?record</span> <span class="tk-pn">ffo:hasObservation</span> <span class="tk-var">?o</span> .
-  <span class="tk-var">?o</span> <span class="tk-pn">ffo:predictedClass</span> <span class="tk-var">?class</span> ;
-     <span class="tk-pn">ffo:confidence</span> <span class="tk-var">?confidence</span> ;
-     <span class="tk-pn">ffo:usedThreshold</span>/<span class="tk-pn">ffo:thresholdValue</span> <span class="tk-var">?threshold</span> .
-  <span class="tk-kw">OPTIONAL</span> { <span class="tk-var">?o</span> <span class="tk-pn">ffo:aboveThreshold</span> <span class="tk-var">?aboveThreshold</span> }
+  <span class="tk-var">?record</span> <span class="tk-pn">ffonto:hasObservation</span> <span class="tk-var">?o</span> .
+  <span class="tk-var">?o</span> <span class="tk-pn">ffonto:predictedClass</span> <span class="tk-var">?class</span> ;
+     <span class="tk-pn">ffonto:confidence</span> <span class="tk-var">?confidence</span> ;
+     <span class="tk-pn">ffonto:usedThreshold</span>/<span class="tk-pn">ffonto:thresholdValue</span> <span class="tk-var">?threshold</span> .
+  <span class="tk-kw">OPTIONAL</span> { <span class="tk-var">?o</span> <span class="tk-pn">ffonto:aboveThreshold</span> <span class="tk-var">?aboveThreshold</span> }
 }
 <span class="tk-kw">ORDER</span> <span class="tk-kw">BY</span> <span class="tk-var">?record</span> <span class="tk-var">?class</span></code></pre></div>
 <p>On the example image from <a href="../../docs/data-sources/#image-data">Data Sources</a>, this returns <i>fire 0.16,
@@ -109,11 +109,11 @@ threshold 0.55, false</i> and <i>smoke 0.73, threshold 0.60, true</i>.</p>
 <h3 id="ex-ppe">Which required PPE is missing? (CQ17)</h3>
 <div class="code"><div class="code-head"><span>SPARQL</span><button type="button" class="copy">Copy</button></div><pre><code class="language-sparql"><span class="tk-kw">SELECT</span> <span class="tk-var">?person</span> <span class="tk-var">?kind</span> <span class="tk-var">?missing</span>
 <span class="tk-kw">WHERE</span> {
-  <span class="tk-var">?sd</span> <span class="tk-pn">ffo:describesRecord</span> <span class="tk-var">?record</span> ; <span class="tk-pn">ffo:depicts</span> <span class="tk-var">?person</span> .
-  <span class="tk-var">?person</span> <span class="tk-pn">ffo:hasKind</span> <span class="tk-var">?k</span> .
-  <span class="tk-var">?k</span> <span class="tk-pn">skos:broader</span>* <span class="tk-pn">ffv:Person</span> ; <span class="tk-pn">skos:prefLabel</span> <span class="tk-var">?kind</span> .
-  <span class="tk-var">?k</span> <span class="tk-pn">ffo:requiredPPE</span> <span class="tk-var">?req</span> .
-  <span class="tk-kw">FILTER</span> <span class="tk-kw">NOT</span> <span class="tk-kw">EXISTS</span> { <span class="tk-var">?person</span> <span class="tk-pn">ffo:wears</span> <span class="tk-var">?req</span> }
+  <span class="tk-var">?sd</span> <span class="tk-pn">ffonto:describesRecord</span> <span class="tk-var">?record</span> ; <span class="tk-pn">ffonto:depicts</span> <span class="tk-var">?person</span> .
+  <span class="tk-var">?person</span> <span class="tk-pn">ffonto:hasKind</span> <span class="tk-var">?k</span> .
+  <span class="tk-var">?k</span> <span class="tk-pn">skos:broader</span>* <span class="tk-pn">ffontov:Person</span> ; <span class="tk-pn">skos:prefLabel</span> <span class="tk-var">?kind</span> .
+  <span class="tk-var">?k</span> <span class="tk-pn">ffonto:requiredPPE</span> <span class="tk-var">?req</span> .
+  <span class="tk-kw">FILTER</span> <span class="tk-kw">NOT</span> <span class="tk-kw">EXISTS</span> { <span class="tk-var">?person</span> <span class="tk-pn">ffonto:wears</span> <span class="tk-var">?req</span> }
   <span class="tk-var">?req</span> <span class="tk-pn">skos:prefLabel</span> <span class="tk-var">?missing</span> .
 }</code></pre></div>
 <p>The required equipment is background knowledge in the vocabulary (for example, a firefighter requires a helmet,
@@ -122,11 +122,11 @@ fire-resistant clothing, gloves and eye protection). The query compares it with 
 <h3 id="ex-fwi">How is the FWI trending at a site? (CQ09)</h3>
 <div class="code"><div class="code-head"><span>SPARQL</span><button type="button" class="copy">Copy</button></div><pre><code class="language-sparql"><span class="tk-kw">SELECT</span> <span class="tk-var">?site</span> <span class="tk-var">?date</span> <span class="tk-var">?FWI</span> <span class="tk-var">?previousFWI</span> <span class="tk-var">?fwiTrend</span>
 <span class="tk-kw">WHERE</span> {
-  <span class="tk-var">?w</span> <span class="tk-pn">a</span> <span class="tk-pn">ffo:WeatherRecord</span> ;
-     <span class="tk-pn">ffo:atSite</span>/<span class="tk-pn">ffo:siteName</span> <span class="tk-var">?site</span> ;
-     <span class="tk-pn">ffo:observationDate</span> <span class="tk-var">?date</span> ;
-     <span class="tk-pn">ffo:fwi</span> <span class="tk-var">?FWI</span> .
-  <span class="tk-kw">OPTIONAL</span> { <span class="tk-var">?w</span> <span class="tk-pn">ffo:previousRecord</span>/<span class="tk-pn">ffo:fwi</span> <span class="tk-var">?previousFWI</span> }     <span class="tk-com"># link derived by rule R08</span>
+  <span class="tk-var">?w</span> <span class="tk-pn">a</span> <span class="tk-pn">ffonto:WeatherRecord</span> ;
+     <span class="tk-pn">ffonto:atSite</span>/<span class="tk-pn">ffonto:siteName</span> <span class="tk-var">?site</span> ;
+     <span class="tk-pn">ffonto:observationDate</span> <span class="tk-var">?date</span> ;
+     <span class="tk-pn">ffonto:fwi</span> <span class="tk-var">?FWI</span> .
+  <span class="tk-kw">OPTIONAL</span> { <span class="tk-var">?w</span> <span class="tk-pn">ffonto:previousRecord</span>/<span class="tk-pn">ffonto:fwi</span> <span class="tk-var">?previousFWI</span> }     <span class="tk-com"># link derived by rule R08</span>
   <span class="tk-kw">BIND</span>(<span class="tk-kw">IF</span>(!<span class="tk-kw">BOUND</span>(<span class="tk-var">?previousFWI</span>), <span class="tk-str">&quot;n/a&quot;</span>,
        <span class="tk-kw">IF</span>(<span class="tk-var">?FWI</span> &gt; <span class="tk-var">?previousFWI</span>, <span class="tk-str">&quot;increasing&quot;</span>,
        <span class="tk-kw">IF</span>(<span class="tk-var">?FWI</span> &lt; <span class="tk-var">?previousFWI</span>, <span class="tk-str">&quot;decreasing&quot;</span>, <span class="tk-str">&quot;stable&quot;</span>))) <span class="tk-kw">AS</span> <span class="tk-var">?fwiTrend</span>)
@@ -136,18 +136,18 @@ fire-resistant clothing, gloves and eye protection). The query compares it with 
 <h3 id="ex-hazards">Which hazards exist, and what should be done? (CQ24 and CQ25)</h3>
 <div class="code"><div class="code-head"><span>SPARQL</span><button type="button" class="copy">Copy</button></div><pre><code class="language-sparql"><span class="tk-kw">SELECT</span> <span class="tk-var">?eventCode</span> <span class="tk-var">?hazardType</span> <span class="tk-var">?reason</span> <span class="tk-var">?action</span>
 <span class="tk-kw">WHERE</span> {
-  <span class="tk-var">?h</span> <span class="tk-pn">a</span> <span class="tk-pn">ffo:Hazard</span> ; <span class="tk-pn">ffo:hasHazardType</span> <span class="tk-var">?ht</span> .
+  <span class="tk-var">?h</span> <span class="tk-pn">a</span> <span class="tk-pn">ffonto:Hazard</span> ; <span class="tk-pn">ffonto:hasHazardType</span> <span class="tk-var">?ht</span> .
   <span class="tk-var">?ht</span> <span class="tk-pn">skos:prefLabel</span> <span class="tk-var">?hazardType</span> .
-  <span class="tk-kw">OPTIONAL</span> { <span class="tk-var">?h</span> <span class="tk-pn">ffo:inEvent</span>/<span class="tk-pn">ffo:eventCode</span> <span class="tk-var">?eventCode</span> }
+  <span class="tk-kw">OPTIONAL</span> { <span class="tk-var">?h</span> <span class="tk-pn">ffonto:inEvent</span>/<span class="tk-pn">ffonto:eventCode</span> <span class="tk-var">?eventCode</span> }
   <span class="tk-kw">OPTIONAL</span> { <span class="tk-var">?h</span> <span class="tk-pn">rdfs:comment</span> <span class="tk-var">?reason</span> }
-  <span class="tk-kw">OPTIONAL</span> { <span class="tk-var">?ht</span> <span class="tk-pn">ffo:mitigatedBy</span>/<span class="tk-pn">skos:prefLabel</span> <span class="tk-var">?action</span> }
+  <span class="tk-kw">OPTIONAL</span> { <span class="tk-var">?ht</span> <span class="tk-pn">ffonto:mitigatedBy</span>/<span class="tk-pn">skos:prefLabel</span> <span class="tk-var">?action</span> }
 }
 <span class="tk-kw">ORDER</span> <span class="tk-kw">BY</span> <span class="tk-var">?eventCode</span> <span class="tk-var">?hazardType</span></code></pre></div>
 
 <h3 id="ex-vocab">Browse the vocabulary: every kind of hand tool</h3>
 <div class="code"><div class="code-head"><span>SPARQL</span><button type="button" class="copy">Copy</button></div><pre><code class="language-sparql"><span class="tk-kw">SELECT</span> <span class="tk-var">?tool</span> <span class="tk-var">?label</span>
 <span class="tk-kw">WHERE</span> {
-  <span class="tk-var">?tool</span> <span class="tk-pn">skos:broader</span>+ <span class="tk-pn">ffv:HandTool</span> ;
+  <span class="tk-var">?tool</span> <span class="tk-pn">skos:broader</span>+ <span class="tk-pn">ffontov:HandTool</span> ;
         <span class="tk-pn">skos:prefLabel</span> <span class="tk-var">?label</span> .
 }
 <span class="tk-kw">ORDER</span> <span class="tk-kw">BY</span> <span class="tk-var">?label</span></code></pre></div>

@@ -44,7 +44,7 @@
 looks like, and how its fields become ontology terms.</p>
 <p>All three are lifted the same way. A normaliser cleans the raw record, the
 <a href="https://kosala0514.github.io/ffonto_html/resources/ffonto.context.jsonld">JSON-LD context</a> maps each field to an ontology
-term, and records that share an <code>event_id</code> are linked to the same <code>ffo:FireEvent</code>. That shared
+term, and records that share an <code>event_id</code> are linked to the same <code>ffonto:FireEvent</code>. That shared
 event is what makes cross-modal questions possible, such as whether the audio and the image of one incident agree.</p>
 
 <h2 id="weather-data">Weather Data</h2>
@@ -63,12 +63,12 @@ Tabular,demo_site_A,2,2,,tue,28,8,2012,17.4,43,6.7,0,94.8,108.3,647.1,17.0,150.4
 <table>
   <thead><tr><th>Column</th><th>Ontology term</th><th>Meaning</th></tr></thead>
   <tbody>
-    <tr><td><code>site</code>, <code>grid_x</code>, <code>grid_y</code></td><td><code>ffo:atSite</code> → <code>ffo:Site</code></td><td>One site per grid cell</td></tr>
-    <tr><td><code>year</code>, <code>month_num</code>, <code>day_of_month</code></td><td><code>ffo:observationDate</code></td><td>Only built when all three are present</td></tr>
-    <tr><td><code>temp_c</code>, <code>rh_pct</code>, <code>wind_kmh</code>, <code>rain_mm</code></td><td><code>ffo:airTemperatureC</code>, <code>ffo:relativeHumidityPct</code>, <code>ffo:windSpeedKmh</code>, <code>ffo:rainMm</code></td><td>Daily weather</td></tr>
-    <tr><td><code>FFMC</code>, <code>DMC</code>, <code>DC</code>, <code>ISI</code>, <code>BUI</code>, <code>FWI</code></td><td><code>ffo:ffmc</code> … <code>ffo:fwi</code></td><td>FWI system components</td></tr>
-    <tr><td><code>fire_occured</code>, <code>area_ha</code></td><td><code>ffo:fireOccurred</code>, <code>ffo:burnedAreaHa</code></td><td>Outcome</td></tr>
-    <tr><td><code>event_id</code></td><td><code>ffo:aboutEvent</code></td><td>Links the row to a fire event</td></tr>
+    <tr><td><code>site</code>, <code>grid_x</code>, <code>grid_y</code></td><td><code>ffonto:atSite</code> → <code>ffonto:Site</code></td><td>One site per grid cell</td></tr>
+    <tr><td><code>year</code>, <code>month_num</code>, <code>day_of_month</code></td><td><code>ffonto:observationDate</code></td><td>Only built when all three are present</td></tr>
+    <tr><td><code>temp_c</code>, <code>rh_pct</code>, <code>wind_kmh</code>, <code>rain_mm</code></td><td><code>ffonto:airTemperatureC</code>, <code>ffonto:relativeHumidityPct</code>, <code>ffonto:windSpeedKmh</code>, <code>ffonto:rainMm</code></td><td>Daily weather</td></tr>
+    <tr><td><code>FFMC</code>, <code>DMC</code>, <code>DC</code>, <code>ISI</code>, <code>BUI</code>, <code>FWI</code></td><td><code>ffonto:ffmc</code> … <code>ffonto:fwi</code></td><td>FWI system components</td></tr>
+    <tr><td><code>fire_occured</code>, <code>area_ha</code></td><td><code>ffonto:fireOccurred</code>, <code>ffonto:burnedAreaHa</code></td><td>Outcome</td></tr>
+    <tr><td><code>event_id</code></td><td><code>ffonto:aboutEvent</code></td><td>Links the row to a fire event</td></tr>
   </tbody>
 </table>
 <p>Two rules work on weather records. R04 compares each value with the <a href="https://kosala0514.github.io/ffonto_html/rules/">danger
@@ -109,20 +109,20 @@ image pipeline:</p>
 <table>
   <thead><tr><th>Field</th><th>Becomes</th></tr></thead>
   <tbody>
-    <tr><td>the record itself</td><td><code>ffo:ImageRecord</code></td></tr>
-    <tr><td>each entry of <code>labels</code></td><td>an <code>ffo:ModelObservation</code> with <code>ffo:predictedClass</code>, <code>ffo:confidence</code> and <code>prov:wasAttributedTo</code> the model</td></tr>
-    <tr><td><code>thresholds</code></td><td><code>ffo:Threshold</code> individuals, linked with <code>ffo:usedThreshold</code></td></tr>
-    <tr><td><code>caption_text</code></td><td>an <code>ffo:Caption</code>; rule R03 tags the concepts it mentions</td></tr>
-    <tr><td><code>checksum_sha256</code>, <code>uri</code>, <code>license</code>, size</td><td>record metadata (<code>ffo:checksumSHA256</code>, <code>ffo:fileURI</code>, <code>dcterms:license</code>, <code>ffo:widthPx</code>)</td></tr>
+    <tr><td>the record itself</td><td><code>ffonto:ImageRecord</code></td></tr>
+    <tr><td>each entry of <code>labels</code></td><td>an <code>ffonto:ModelObservation</code> with <code>ffonto:predictedClass</code>, <code>ffonto:confidence</code> and <code>prov:wasAttributedTo</code> the model</td></tr>
+    <tr><td><code>thresholds</code></td><td><code>ffonto:Threshold</code> individuals, linked with <code>ffonto:usedThreshold</code></td></tr>
+    <tr><td><code>caption_text</code></td><td>an <code>ffonto:Caption</code>; rule R03 tags the concepts it mentions</td></tr>
+    <tr><td><code>checksum_sha256</code>, <code>uri</code>, <code>license</code>, size</td><td>record metadata (<code>ffonto:checksumSHA256</code>, <code>ffonto:fileURI</code>, <code>dcterms:license</code>, <code>ffonto:widthPx</code>)</td></tr>
   </tbody>
 </table>
 <p>In this example, the smoke score (0.73) is above its threshold (0.60) and the fire score (0.16) is below its
 threshold (0.55), so rule R02 derives <i>smoke</i> as the detected class. The caption still says "forest fire", and
-rule R05 records that disagreement as an <code>ffo:ModalityConflict</code>.</p>
+rule R05 records that disagreement as an <code>ffonto:ModalityConflict</code>.</p>
 <p>Questions about what is <i>in</i> a picture (people, PPE, vehicles, vegetation, damage) need more than scores.
 A vision-language model reads each image and writes a <b>scene description</b>: a list of entities with their kind,
 state, activity, worn equipment and spatial relations, restricted to concepts from the vocabulary. The lifter turns it
-into an <code>ffo:SceneDescription</code> that <code>ffo:depicts</code> a set of <code>ffo:SceneEntity</code> nodes.</p>
+into an <code>ffonto:SceneDescription</code> that <code>ffonto:depicts</code> a set of <code>ffonto:SceneEntity</code> nodes.</p>
 
 <h2 id="audio-data">Audio Data</h2>
 <p>Audio clips are recorded at or near the fire. Each clip is classified with YAMNet, a sound-event model with 521
@@ -145,15 +145,15 @@ threshold of 0.2 and maps them to fire-relevant sound events:</p>
 <table>
   <thead><tr><th>Field</th><th>Becomes</th></tr></thead>
   <tbody>
-    <tr><td>the record itself</td><td><code>ffo:AudioRecord</code> with <code>ffo:durationMs</code></td></tr>
-    <tr><td><code>raw_label</code></td><td><code>ffo:predictedClass</code> pointing to a sound-event concept, for example <code>ffv:Explosion</code></td></tr>
-    <tr><td><code>mean_confidence</code>, <code>max_confidence</code></td><td><code>ffo:meanConfidence</code>, <code>ffo:maxConfidence</code></td></tr>
-    <tr><td><code>model</code>, <code>frame_stride_s</code>, <code>topk</code></td><td>model provenance (<code>ffo:modelURL</code>, <code>ffo:frameStrideS</code>, <code>ffo:topK</code>)</td></tr>
+    <tr><td>the record itself</td><td><code>ffonto:AudioRecord</code> with <code>ffonto:durationMs</code></td></tr>
+    <tr><td><code>raw_label</code></td><td><code>ffonto:predictedClass</code> pointing to a sound-event concept, for example <code>ffontov:Explosion</code></td></tr>
+    <tr><td><code>mean_confidence</code>, <code>max_confidence</code></td><td><code>ffonto:meanConfidence</code>, <code>ffonto:maxConfidence</code></td></tr>
+    <tr><td><code>model</code>, <code>frame_stride_s</code>, <code>topk</code></td><td>model provenance (<code>ffonto:modelURL</code>, <code>ffonto:frameStrideS</code>, <code>ffonto:topK</code>)</td></tr>
   </tbody>
 </table>
 <p>Audio matters most in combination. When an explosion is detected above its threshold, rule R07 derives an
 explosion hazard for the event. Independently, rule R06 derives the same hazard type when a propane tank is seen near
-the fire in an image of that event. Both hazards share the hazard type <code>ffv:ExplosionHazard</code>, and the vocabulary supplies
+the fire in an image of that event. Both hazards share the hazard type <code>ffontov:ExplosionHazard</code>, and the vocabulary supplies
 its recommended actions: cool and isolate the pressurised tank, and withdraw to a safety zone.</p>
 
 <h3 id="data-references">References</h3>

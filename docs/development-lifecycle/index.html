@@ -112,17 +112,17 @@ competency question must be answerable by one tested SPARQL query.</p>
   concepts, danger conditions, modality conflicts, hazards and the previous weather record.</li>
   <li><b>SHACL shapes</b> for data quality, and a <b>JSON-LD context</b> that lifts the raw JSON and CSV files into RDF.</li>
 </ul>
-<div class="code"><div class="code-head"><span>Turtle</span><button type="button" class="copy">Copy</button></div><pre><code class="language-turtle"><span class="tk-pn">ffo:ModelObservation</span> <span class="tk-kw">a</span> <span class="tk-pn">owl:Class</span> ;
+<div class="code"><div class="code-head"><span>Turtle</span><button type="button" class="copy">Copy</button></div><pre><code class="language-turtle"><span class="tk-pn">ffonto:ModelObservation</span> <span class="tk-kw">a</span> <span class="tk-pn">owl:Class</span> ;
     <span class="tk-pn">rdfs:subClassOf</span> <span class="tk-pn">sosa:Observation</span> ;
     <span class="tk-pn">rdfs:label</span> <span class="tk-str">&quot;Model observation&quot;@en</span> ;
     <span class="tk-pn">rdfs:comment</span> &quot;A claim made by <span class="tk-kw">a</span> model about <span class="tk-kw">a</span> data record: either <span class="tk-kw">a</span> predicted class
-        with <span class="tk-kw">a</span> confidence (<span class="tk-pn">ffo:predictedClass</span>) or <span class="tk-kw">a</span> categorical value for an observable
-        property (<span class="tk-pn">sosa:observedProperty</span> + <span class="tk-pn">ffo:hasValueConcept</span>).&quot;@en .
+        with <span class="tk-kw">a</span> confidence (<span class="tk-pn">ffonto:predictedClass</span>) or <span class="tk-kw">a</span> categorical value for an observable
+        property (<span class="tk-pn">sosa:observedProperty</span> + <span class="tk-pn">ffonto:hasValueConcept</span>).&quot;@en .
 
-<span class="tk-pn">ffv:Pulaski</span> <span class="tk-kw">a</span> <span class="tk-pn">skos:Concept</span> ;
+<span class="tk-pn">ffontov:Pulaski</span> <span class="tk-kw">a</span> <span class="tk-pn">skos:Concept</span> ;
     <span class="tk-pn">skos:prefLabel</span> <span class="tk-str">&quot;Pulaski&quot;@en</span> ;
-    <span class="tk-pn">skos:inScheme</span>  <span class="tk-pn">ffv:EntityKindScheme</span> ;
-    <span class="tk-pn">skos:broader</span>   <span class="tk-pn">ffv:HandTool</span> ;
+    <span class="tk-pn">skos:inScheme</span>  <span class="tk-pn">ffontov:EntityKindScheme</span> ;
+    <span class="tk-pn">skos:broader</span>   <span class="tk-pn">ffontov:HandTool</span> ;
     <span class="tk-pn">skos:hiddenLabel</span> <span class="tk-str">&quot;pulaski&quot;@en</span> .</code></pre></div>
 
 <h2 id="evaluation">Evaluation</h2>
@@ -151,7 +151,7 @@ from all dataset images.</p>
   <li><b>Normalise.</b> A Python lifter reads each image JSON, audio JSON and weather CSV row, fixes missing values
   and builds stable identifiers, for example one site per weather grid cell.</li>
   <li><b>Map.</b> The JSON-LD context turns each field into an ontology term, so <code>confidence</code> becomes
-  <code>ffo:confidence</code> and <code>event_id</code> links the record to its <code>ffo:FireEvent</code>.</li>
+  <code>ffonto:confidence</code> and <code>event_id</code> links the record to its <code>ffonto:FireEvent</code>.</li>
   <li><b>Load.</b> The graph is stored in GraphDB in one repository with a named graph per source: ontology,
   vocabulary, image, audio, weather, scene and inferred. The RDFS-Plus ruleset adds subclass and inverse inferences.</li>
   <li><b>Derive.</b> Rules R00–R08 run as SPARQL updates into the <code>inferred</code> graph, which is rebuilt on

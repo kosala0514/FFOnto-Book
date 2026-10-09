@@ -70,17 +70,17 @@ competency question must be answerable by one tested SPARQL query.</p>
   concepts, danger conditions, modality conflicts, hazards and the previous weather record.</li>
   <li><b>SHACL shapes</b> for data quality, and a <b>JSON-LD context</b> that lifts the raw JSON and CSV files into RDF.</li>
 </ul>
-<pre><code class="language-turtle">ffo:ModelObservation a owl:Class ;
+<pre><code class="language-turtle">ffonto:ModelObservation a owl:Class ;
     rdfs:subClassOf sosa:Observation ;
     rdfs:label "Model observation"@en ;
     rdfs:comment "A claim made by a model about a data record: either a predicted class
-        with a confidence (ffo:predictedClass) or a categorical value for an observable
-        property (sosa:observedProperty + ffo:hasValueConcept)."@en .
+        with a confidence (ffonto:predictedClass) or a categorical value for an observable
+        property (sosa:observedProperty + ffonto:hasValueConcept)."@en .
 
-ffv:Pulaski a skos:Concept ;
+ffontov:Pulaski a skos:Concept ;
     skos:prefLabel "Pulaski"@en ;
-    skos:inScheme  ffv:EntityKindScheme ;
-    skos:broader   ffv:HandTool ;
+    skos:inScheme  ffontov:EntityKindScheme ;
+    skos:broader   ffontov:HandTool ;
     skos:hiddenLabel "pulaski"@en .</code></pre>
 
 <h2 id="evaluation">Evaluation</h2>
@@ -109,7 +109,7 @@ from all dataset images.</p>
   <li><b>Normalise.</b> A Python lifter reads each image JSON, audio JSON and weather CSV row, fixes missing values
   and builds stable identifiers, for example one site per weather grid cell.</li>
   <li><b>Map.</b> The JSON-LD context turns each field into an ontology term, so <code>confidence</code> becomes
-  <code>ffo:confidence</code> and <code>event_id</code> links the record to its <code>ffo:FireEvent</code>.</li>
+  <code>ffonto:confidence</code> and <code>event_id</code> links the record to its <code>ffonto:FireEvent</code>.</li>
   <li><b>Load.</b> The graph is stored in GraphDB in one repository with a named graph per source: ontology,
   vocabulary, image, audio, weather, scene and inferred. The RDFS-Plus ruleset adds subclass and inverse inferences.</li>
   <li><b>Derive.</b> Rules R00–R08 run as SPARQL updates into the <code>inferred</code> graph, which is rebuilt on
